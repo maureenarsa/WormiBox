@@ -1,0 +1,1114 @@
+
+/*** Spinner Start ***/
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+/*** Spinner End ***/
+
+.back-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    transition: 0.5s;
+    z-index: 99;
+}
+.btn-secondary {
+    background-color: #00543c !important;
+    border-color: #00543c !important;
+    color: white !important; /* Menjaga teks/icon tetap terlihat */
+}
+
+.btn-secondary:hover {
+    background-color: #003f2e !important; /* Warna lebih gelap untuk efek hover */
+    border-color: #003f2e !important;
+}
+
+
+/*** Button Start ***/
+.btn {
+    font-weight: 600;
+    transition: .5s;
+}
+
+.btn-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-sm-square {
+    width: 34px;
+    height: 34px;
+}
+
+.btn-md-square {
+    width: 44px;
+    height: 44px;
+}
+
+.btn-lg-square {
+    width: 56px;
+    height: 56px;
+}
+
+.btn-xl-square {
+    width: 66px;
+    height: 66px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-md-square,
+.btn-lg-square,
+.btn-xl-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+
+.btn.btn-primary {
+    color: var(--bs-white);
+}
+
+.btn.btn-primary:hover {
+    background: var(--bs-secondary);
+    border: 1px solid var(--bs-secondary);
+}
+
+.btn.btn-white {
+    color: var(--bs-white);
+   
+}
+
+.btn.btn-secondary:hover {
+    background: var(--bs-primary);
+    border: 1px solid var(--bs-primary);
+}
+/*** Topbar Start ***/
+
+/*** Navbar ***/
+.navbar-light .navbar-nav .nav-link {
+    position: relative;
+    margin-right: 25px;
+    padding: 35px 0;
+    color: white; /* Warna default tulisan */
+    font-size: 17px;
+    font-weight: 400;
+    outline: none;
+    transition: color 0.5s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: #00543c; /* Warna saat hover dan aktif */
+}
+
+/* Garis animasi di bawah nav-link */
+.navbar-light .navbar-nav .nav-item {
+    position: relative;
+}
+
+.navbar-light .navbar-nav .nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 10px; /* Jarak garis ke teks */
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #00543c; /* Warna garis */
+    border-radius: 2px; /* Membuat ujung garis melengkung */
+    transform: translateX(-50%);
+    transition: all 0.5s ease; /* Efek transisi */
+}
+
+.navbar-light .navbar-nav .nav-item:hover::after,
+.navbar-light .navbar-nav .nav-item.active::after {
+    width: 60%; /* Panjang garis saat hover atau aktif */
+}
+
+.navbar-light.sticky-top .navbar-nav .nav-link {
+    color: #00543c; /* Warna teks saat sticky */
+}
+
+.navbar-light.sticky-top .navbar-nav .nav-link:not(.active) {
+    color: white; /* Warna putih untuk menu yang tidak aktif */
+    background-color: transparent; /* Latar belakang transparan */
+}
+
+/* Tombol pencarian */
+.btn-search {
+    background-color: #00543c; /* Warna latar belakang awal */
+    color: white; /* Warna teks tetap putih */
+    border: none; /* Menghilangkan border */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
+}
+
+.btn-search:hover {
+    background-color: #79d856; /* Warna latar belakang saat hover */
+    color: white; /* Warna teks tetap putih saat hover */
+}
+
+/* Tombol Order Now */
+.btn-order-now {
+    background-color: #00543c; /* Warna latar belakang awal */
+    color: white; /* Warna teks tetap putih */
+    border: none; /* Menghilangkan border */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
+}
+
+.btn-order-now:hover {
+    background-color: #79d856; /* Warna latar belakang saat hover */
+    color: white; /* Warna teks tetap putih saat hover */
+}
+
+.navbar-light .navbar-brand img {
+    max-height: 60px;
+    transition: .5s;
+}
+
+.sticky-top.navbar-light .navbar-brand img {
+    max-height: 45px;
+}
+
+.navbar .dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+.dropdown .dropdown-menu a:hover {
+    background: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.navbar .nav-item:hover .dropdown-menu {
+    transform: rotateX(0deg);
+    visibility: visible;
+    background: var(--bs-light);
+    transition: .5s;
+    opacity: 1;
+}
+
+@media (max-width: 991.98px) {
+    .sticky-top.navbar-light {
+        position: relative;
+        background: var(--bs-white);
+    }
+
+    .navbar.navbar-expand-lg .navbar-toggler {
+        padding: 10px 20px;
+        border: 1px solid var(--bs-primary);
+        color: var(--bs-primary);
+    }
+
+    .navbar-light .navbar-collapse {
+        margin-top: 15px;
+        border-top: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    .navbar-light .navbar-nav .nav-link,
+    .sticky-top.navbar-light .navbar-nav .nav-link {
+        padding: 10px 0;
+        margin-left: 0;
+        color: var(--bs-dark);
+    }
+
+    .navbar-light .navbar-brand img {
+        max-height: 45px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        visibility: hidden;
+        top: 100%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        border: 0;
+        border-radius: 10px;
+        transition: .5s;
+        opacity: 0;
+    }
+
+    .navbar-light {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 1px solid;
+        border-left: 0;
+        border-style: dotted;
+        z-index: 999;
+    }
+
+    .sticky-top.navbar-light {
+        position: fixed;
+        background: var(--bs-light);
+        border: none;
+    }
+}
+
+
+
+/*** Carousel Hero Header Start ***/
+/* Global Font Styling */
+body {
+    font-family: 'Poppins', sans-serif; /* Font modern yang populer */
+    color: #333333; /* Warna teks default */
+}
+
+/* Carousel Heading */
+.carousel-caption-1 h3, 
+.carousel-caption-2 h3 {
+    font-size: 2.8rem; /* Ukuran besar untuk judul */
+    font-weight: 700; /* Bold untuk judul agar menonjol */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Efek bayangan */
+    line-height: 1.3;
+    transition: transform 0.5s ease, color 0.5s ease; /* Animasi halus */
+}
+
+.carousel-caption-1 h3:hover, 
+.carousel-caption-2 h3:hover {
+    color: #79d856; /* Warna hijau terang saat hover */
+    transform: scale(1.05); /* Sedikit membesar saat hover */
+}
+
+/* Carousel Paragraph */
+.carousel-caption-1 p, 
+.carousel-caption-2 p {
+    font-size: 1.2rem; /* Ukuran medium untuk deskripsi */
+    font-weight: 400; /* Normal weight */
+    line-height: 1.8;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Efek bayangan lembut */
+    margin-bottom: 30px;
+    transition: color 0.3s ease;
+}
+
+.carousel-caption-1 p:hover, 
+.carousel-caption-2 p:hover {
+    color: #79d856; /* Warna hijau terang saat hover */
+}
+
+/* Button Styling */
+.carousel-caption-1-content-btn a, 
+.carousel-caption-2-content-btn a {
+    font-size: 1.1rem; /* Ukuran font tombol */
+    font-weight: 600; /* Bold untuk tombol */
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
+}
+
+.carousel-caption-1-content-btn a:hover, 
+.carousel-caption-2-content-btn a:hover {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar saat hover */
+}
+
+/* Responsive Typography */
+@media (max-width: 992px) {
+    .carousel-caption-1 h3, 
+    .carousel-caption-2 h3 {
+        font-size: 2.2rem; /* Ukuran lebih kecil untuk layar medium */
+    }
+
+    .carousel-caption-1 p, 
+    .carousel-caption-2 p {
+        font-size: 1rem; /* Ukuran lebih kecil untuk layar medium */
+    }
+
+    .carousel-caption-1-content-btn a, 
+    .carousel-caption-2-content-btn a {
+        font-size: 1rem; /* Ukuran lebih kecil untuk tombol */
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption-1 h3, 
+    .carousel-caption-2 h3 {
+        font-size: 1.8rem; /* Ukuran lebih kecil untuk layar kecil */
+    }
+
+    .carousel-caption-1 p, 
+    .carousel-caption-2 p {
+        font-size: 0.9rem; /* Ukuran lebih kecil untuk layar kecil */
+    }
+
+    .carousel-caption-1-content-btn a, 
+    .carousel-caption-2-content-btn a {
+        font-size: 0.9rem; /* Ukuran lebih kecil untuk tombol */
+    }
+}
+
+/* Font Styling for Paragraph */
+.carousel-caption-1 p, 
+.carousel-caption-2 p {
+    font-family: 'Lora', serif; /* Font elegan dengan gaya serif */
+    font-size: 1.2rem; /* Ukuran medium untuk deskripsi */
+    font-weight: 500; /* Berat font sedikit lebih tebal */
+    line-height: 1.8; /* Spasi antar baris nyaman */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Efek bayangan lembut */
+    margin-bottom: 30px;
+    transition: color 0.3s ease;
+}
+
+.carousel-caption-1 p:hover, 
+.carousel-caption-2 p:hover {
+    color: #79d856; /* Warna hijau terang saat hover */
+}
+
+/* Responsive Typography */
+@media (max-width: 992px) {
+    .carousel-caption-1 p, 
+    .carousel-caption-2 p {
+        font-size: 1rem; /* Ukuran lebih kecil untuk layar medium */
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption-1 p, 
+    .carousel-caption-2 p {
+        font-size: 0.9rem; /* Ukuran lebih kecil untuk layar kecil */
+    }
+}
+
+
+
+.carousel-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-indicators {
+    display: none;
+}
+
+.carousel .carousel-control-prev,
+.carousel .carousel-control-next {
+    width: 0;
+}
+
+.carousel .carousel-control-prev .carousel-control-prev-icon,
+.carousel .carousel-control-next .carousel-control-next-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 25px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00543c; /* Warna dasar hijau gelap */
+    transition: 0.5s;
+}
+
+.carousel .carousel-control-prev .carousel-control-prev-icon {
+    left: 0;
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 50px;
+}
+
+.carousel .carousel-control-next .carousel-control-next-icon {
+    right: 0;
+    border-right: 0;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 0;
+}
+
+.carousel .carousel-control-prev .carousel-control-prev-icon:hover,
+.carousel .carousel-control-next .carousel-control-next-icon:hover {
+    background: #79d856; /* Warna hijau terang saat hover */
+}
+
+.carousel .carousel-inner .carousel-item {
+    position: relative;
+}
+
+.carousel .carousel-inner .carousel-item .carousel-caption-1  {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, 0.5));
+    background-size: cover;
+}
+
+.carousel-caption-1-content {
+    text-align: end;
+    padding-right: 100px;
+}
+
+.carousel-caption-1-content .carousel-caption-1-content-btn {
+    display: flex;
+    justify-content: end;
+}
+
+.carousel .carousel-inner .carousel-item .carousel-caption-2  {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, 0.5));
+    background-size: cover;
+}
+
+.carousel-caption-2-content {
+    text-align: start;
+    padding-left: 100px;
+}
+
+.carousel-caption-2-content .carousel-caption-2-content-btn {
+    display: flex;
+    justify-content: start;
+}
+
+
+@media (max-width: 992px) {
+    .carousel .carousel-inner .carousel-item {
+        height: 700px;
+        margin-top: -100px;
+    }
+
+    .carousel .carousel-inner .carousel-item img {
+        height: 700px;
+        object-fit: cover;
+    }
+
+
+    .carousel .carousel-inner .carousel-item .carousel-caption-1 {
+        max-width: 100% !important;
+        justify-content: center;
+    }
+
+    .carousel-caption-1-content {
+        padding: 0 20px !important;
+        text-align: center !important;
+    }
+
+    .carousel-caption-1-content .carousel-caption-1-content-btn {
+        justify-content: center;
+    }
+
+
+    .carousel .carousel-inner .carousel-item .carousel-caption-2 {
+        max-width: 100% !important;
+        justify-content: center;
+    }
+
+    .carousel-caption-2-content {
+        padding: 0 20px !important;
+        text-align: center !important;
+    }
+
+    .carousel-caption-2-content .carousel-caption-2-content-btn {
+        justify-content: center;
+    }
+
+
+
+    .carousel .carousel-control-prev .carousel-control-prev-icon,
+    .carousel .carousel-control-next .carousel-control-next-icon {
+        display: none;
+    }
+}
+
+.modal .modal-header {
+    height: 100px;
+}
+
+#searchModal .modal-content {
+    background: rgba(255, 255, 255, .6);
+}
+/*** Carousel Hero Header End ***/
+
+/*** Single Page Hero Header Start ***/
+.bg-breadcrumb {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 20, 66, 0.7), rgba(0, 20, 66, 0.7)), url(../img/breadcrumb.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 120px 0 60px 0;
+    transition: 0.5s;
+}
+
+.bg-breadcrumb .breadcrumb {
+    position: relative;
+}
+
+.bg-breadcrumb .breadcrumb .breadcrumb-item a {
+    color: var(--bs-white);
+}
+
+@media (max-width: 992px) {
+    .bg-breadcrumb {
+        padding: 60px 0 60px 0;
+    }
+}
+/*** Single Page Hero Header End ***/
+
+
+/*** Features Start ***/
+.feature .feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--bs-white);
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.feature .feature-item:hover {
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+}
+
+.feature .feature-item .feature-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00543c; /* Warna latar belakang baru */
+}
+
+.feature .feature-item .feature-icon i {
+    transition: 0.5s;
+}
+
+.feature .feature-item:hover .feature-icon i {
+    transform: rotate(360deg);
+}
+
+.feature .feature-item a.btn {
+    transition: 0.5s;
+}
+
+.feature .feature-item:hover a.btn:hover {
+    color: var(--bs-primary) !important;
+}
+/*** Features End ***/
+
+
+/*** About Start ***/
+.about .about-img {
+    position: relative;
+    padding-bottom: 30px;
+    margin-top: 30px; 
+    margin-left: 30px;
+}
+
+.about .about-img::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    top: -30px;
+    right: 0;
+    border-radius: 15px;
+    background: linear-gradient(90deg, #00543c, #79d856);
+    animation: move-line 3s infinite linear;
+}
+
+.about .about-img::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    left: -30px;
+    bottom: 30px;
+    border-radius: 15px;
+    background: linear-gradient(180deg, #00543c, #79d856);
+    animation: move-line-vertical 3s infinite linear;
+}
+
+.about .about-img .about-exp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 25px;
+    font-size: 30px;
+    font-weight: bold;
+    background: #00543c;
+    color: var(--bs-white);
+    border: 1px solid #00543c;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 10px;
+}
+
+@keyframes move-line {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes move-line-vertical {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 200%;
+    }
+}
+/*** About End ***/
+
+/*** Service Start ***/
+.service-item {
+    position: relative;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    overflow: hidden; /* Pastikan pseudo-elemen tidak melampaui batas elemen */
+}
+
+.service-item::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background: #afe99a; /* Default background, ganti warna biru muda */
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.service-item:hover::after {
+    width: 100%;
+    height: 100%;
+}
+
+.service-item:hover .service-content,
+.service-item:hover .service-btn {
+    position: relative;
+    z-index: 2;
+}
+
+.service-item .service-content a,
+.service-item .service-content p {
+    transition: 0.5s;
+}
+
+.service-item:hover .service-content a:hover {
+    color: var(--bs-secondary);
+}
+
+.service-item:hover .service-content p {
+    color: var(--bs-white);
+}
+
+.service-item .service-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #79d856; /* Default background for icon */
+    transition: 0.5s;
+}
+
+.service-item .service-btn i {
+    transition: 0.5s;
+}
+
+.service-item:hover .service-btn {
+    background: var(--bs-white);
+}
+
+.service-item:hover .service-btn i {
+    transform: rotate(360deg);
+    color: #79d856 !important; /* Hover color for icons */
+}
+/*** Service End ***/
+
+
+
+/*** Counter Start ***/
+.counter {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(rgba(0,84,60, 0.1), rgb(0,84,60)), url(../img/tagan.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.counter .counter-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.counter .counter-item .counter-item-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background: #79d856; /* Changed background color to #79d856 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+/*** Counter End ***/
+
+/*** kounter Start ***/
+.kounter {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(rgba(0,84,60, 0.1), rgb(0,84,60)), url(../img/compost-still-life-concept\(1\).jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.kounter .kounter-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.kounter .kounter-item .kounter-item-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background: #79d856; /* Changed background color to #79d856 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+/*** Counter End ***/
+
+
+
+/*** Products Start ***/
+
+
+
+.product .product-item {
+    border: 1px solid rgba(196, 211, 211, 0.9);
+    border-radius: 10px;
+}
+
+/*** Products End ***/
+
+/*** Blog Start ***/
+.blog .blog-item {
+    border-radius: 10px;
+    background: var(--bs-light);
+    transition: 0.5s;
+}
+
+.blog .blog-item:hover {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.2);
+}
+
+.blog .blog-item .blog-img {
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.blog .blog-item .blog-img::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.blog .blog-item .blog-img img {
+    transition: 0.5s;
+}
+
+.blog .blog-item:hover .blog-img img {
+    transform: scale(1.2);
+}
+
+.blog .blog-item:hover .blog-img::after {
+    background: rgba(0, 209, 249, 0.2);
+}
+
+.blog .blog-item .blog-date {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    border-radius: 10px;
+    background: var(--bs-primary);
+    color: var(--bs-white);
+    z-index: 2;
+}
+
+.blog .blog-item .blog-content a {
+    transition: 0.5s;
+}
+
+.blog .blog-item:hover .blog-content a:hover {
+    color: var(--bs-primary) !important;
+}
+/*** Blog End ***/
+
+/*** Team Start ***/
+.team .team-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--bs-white);
+    border: 1px solid var(--bs-secondary);
+    border-radius: 10px;
+}
+
+.team .team-item .team-inner {
+    transition: 0.5s;
+}
+.team .team-item:hover .team-inner {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.2);
+}
+
+.team .team-item .team-inner .team-img {
+    position: relative;
+    z-index: 2;
+}
+
+.team .team-item .team-inner .team-img::after {
+    content: "";
+    width: 100%;
+    height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: rgba(0, 209, 249, 0.2);
+    transition: 0.5s;
+    z-index: 3;
+}
+
+.team .team-item:hover .team-inner .team-img::after {
+    height: 100%;
+}
+
+.team .team-item .team-inner .team-img .team-share {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    transition: 0.5s;
+    z-index: 2;
+}
+
+.team .team-item:hover .team-inner .team-img .team-share {
+    opacity: 0;
+}
+
+.team .team-item .team-inner .team-img .team-icon {
+    position: absolute;
+    bottom: 0;
+    left: -100%;
+    border-bottom-left-radius: 0 !important; 
+    border-top-left-radius: 0 !important;
+    display: inline-flex;
+    background: var(--bs-primary);
+    transition: 0.5s;
+    z-index: 4;
+}
+
+.team .team-item:hover .team-inner .team-img .team-icon { 
+    left: -25px; 
+}
+/*** Team End ***/
+
+
+/*** testimonial Start ***/
+.testimonial .owl-nav .owl-prev {
+    position: absolute;
+    top: -58px;
+    right: 0;
+    background: #00543c;
+    color: var(--bs-white);
+    padding: 5px 30px;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+.testimonial .owl-nav .owl-prev:hover {
+    background: #79d856;
+    color: var(--bs-white);
+}
+
+.testimonial .owl-nav .owl-next {
+    position: absolute;
+    top: -58px;
+    right: 88px;
+    background: #00543c;
+    color: var(--bs-white);
+    padding: 5px 30px;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+.testimonial .owl-nav .owl-next:hover {
+    background: #79d856;
+    color: var(--bs-white);
+}
+
+.testimonial-carousel .owl-dots {
+    display: flex;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.testimonial-carousel .owl-dots .owl-dot {
+    width: 20px;  /* Ukuran lingkaran luar lebih kecil */
+    height: 20px; /* Ukuran lingkaran luar lebih kecil */
+    border-radius: 20px;
+    margin-right: 15px;
+    border: 1px solid #79d856;
+    background: #00543c;
+    transition: 0.5s;
+}
+
+.testimonial-carousel .owl-dots .owl-dot.active {
+    width: 20px;  /* Ukuran lingkaran luar lebih kecil */
+    height: 20px; /* Ukuran lingkaran luar lebih kecil */
+    border-radius: 20px;
+    border: 1px solid #00543c;
+    background: #79d856 !important;
+    transition: 0.5s;
+}
+
+.testimonial-carousel .owl-dots .owl-dot span {
+    position: absolute;
+    top: 50%; /* Posisikan di tengah secara vertikal */
+    left: 50%; /* Posisikan di tengah secara horizontal */
+    transform: translate(-50%, -50%); /* Menyesuaikan posisi dengan benar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.testimonial-carousel .owl-dots .owl-dot span::after {
+    content: "";
+    width: 5px; /* Ukuran lingkaran dalam lebih kecil */
+    height: 5px; /* Ukuran lingkaran dalam lebih kecil */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%; /* Posisikan di tengah secara horizontal */
+    transform: translate(-50%, -50%); /* Menyesuaikan posisi dengan benar */
+    background: var(--bs-white);
+}
+
+/* Perbesar ukuran circle foto */
+.testimonial .testimonial-item img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #00543c; /* Border dengan warna #00543c */
+}
+
+@media (max-width: 992px) {
+    .owl-carousel.testimonial-carousel {
+        padding-top: 30px;
+    }
+
+    .testimonial .owl-nav .owl-prev,
+    .testimonial .owl-nav .owl-next {
+        top: -30px;
+    }
+}
+/*** testimonial End ***/
+
+
+
+
+/*** Footer Start ***/
+.footer {
+    background: var(--bs-dark);
+}
+
+.footer .footer-item {
+    text-align: left; /* Menyelaraskan semua teks ke kiri */
+    align-items: flex-start; /* Pastikan elemen flex tidak rata tengah */
+}
+
+.footer .footer-item a {
+    line-height: 35px;
+    color: var(--bs-body);
+    transition: 0.5s;
+    text-decoration: none; /* Opsional: Menghapus garis bawah jika ada */
+}
+
+.footer .footer-item p {
+    line-height: 35px;
+}
+
+.footer .footer-item a:hover {
+    letter-spacing: 1px;
+    color: white; /* Mengubah warna hover menjadi hijau muda */
+}
+
+.footer .footer-item .footer-btn a,
+.footer .footer-item .footer-btn a i {
+    transition: 0.5s;
+}
+
+.footer .footer-item .footer-btn a:hover {
+    background: var(--bs-white);
+    color: white; /* Mengubah warna teks saat hover menjadi hijau muda */
+}
+
+.footer .footer-item .footer-btn a:hover i {
+    color: white !important; /* Mengubah warna ikon saat hover menjadi hijau muda */
+}
+/*** Footer End ***/
+
+
+/*** copyright Start ***/
+.copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bs-dark);
+}
+/*** copyright end ***/
+
+
