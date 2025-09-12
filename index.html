@@ -1,347 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <title>WormiBox</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
+<head>
+    <meta charset="utf-8">
+    <title>WormiBox</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
-        <!-- Favicon -->
-        <link href="img/logo-WormiBox.png" rel="icon">
+    <link href="img/logo-WormiBox.png" rel="icon">
 
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <!-- Icon Font Stylesheet -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-    </head>
+    <link href="css/style.css" rel="stylesheet">
 
-    <body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-        <!-- Spinner Start -->
-<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border custom-spinner" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
+    <style>
+        /* Menentukan warna spinner */
+        .custom-spinner {
+            border-top-color: #00543c;
+            /* Ubah warna bagian atas spinner */
+            border-left-color: #00543c;
+            /* Ubah warna bagian kiri spinner */
+            border-bottom-color: #00543c;
+            /* Ubah warna bagian bawah spinner */
+        }
+    </style>
+
+    <style>
+        /* CSS Halaman Login dan Dashboard */
+        .modal-body-custom {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .modal-body-custom h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .modal-body-custom p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .btn-custom {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 15px;
+            min-height: 20px;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            display: none;
+            /* Default hidden */
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .dashboard-container .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+            width: auto;
+            padding: 8px 15px;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .sensor-data-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            max-width: 250px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #388e3c;
+        }
+
+        .data-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2e7d32;
+            margin: 10px 0 0;
+        }
+
+        .control-container {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-switch {
+            display: inline-block;
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-switch label {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-switch label:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+label {
+            background-color: #4CAF50;
+        }
+
+        input:checked+label:before {
+            transform: translateX(26px);
+        }
+
+        .status-text {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Tombol Order Now */
+        .btn-order-now {
+            background-color: #00543c;
+            /* Warna latar belakang awal */
+            color: white;
+            /* Warna teks tetap putih */
+            border: none;
+            /* Menghilangkan border */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Efek transisi */
+        }
+
+        .btn-order-now:hover {
+            background-color: #79d856;
+            /* Warna latar belakang saat hover */
+            color: white;
+            /* Warna teks tetap putih saat hover */
+        }
+
+        /* Pulse animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .pulse-card.pulse {
+            animation: pulse 1s ease-in-out 4;
+            /* Pulse animation runs 4 times */
+        }
+
+        /* Zoom effect on hover */
+        .zoom-on-hover:hover img {
+            transform: scale(1.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Custom button styling */
+        .custom-btn {
+            background-color: #00543c !important;
+            color: white !important;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .custom-btn:hover {
+            background-color: #79d856 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border custom-spinner" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-</div>
-<!-- Spinner End -->
-
-<style>
-    /* Menentukan warna spinner */
-    .custom-spinner {
-        border-top-color: #00543c; /* Ubah warna bagian atas spinner */
-        border-left-color: #00543c; /* Ubah warna bagian kiri spinner */
-        border-bottom-color: #00543c; /* Ubah warna bagian bawah spinner */
-    }
-</style>
 
 
-        <!-- Navbar & Hero Start -->
+    <div id="main-content">
         <div class="container-fluid position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0" style="background-color: #a0c8a6;">
                 <a href="" class="navbar-brand p-0">
                     <h1 class="display-6" style="font-family: 'Poppins', sans-serif; color: #00543c;">
                         <img src="img/logo-WormiBox.png" alt="VermiBox Logo" style="height: 1.2em; vertical-align: middle;"> WormiBox
-                    </h1>                    
+                    </h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="index.html" class="nav-item nav-link active" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Beranda</a>
+                        <a href="#carouselId" class="nav-item nav-link active" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Beranda</a>
                         <a href="about.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Tentang</a>
                         <a href="product.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Produk</a>
                         <a href="service.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Layanan</a>
                         <a href="contact.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Kontak</a>
                     </div>
-        
-                    <style>
-
                     
-                        /* Tombol Order Now */
-                        .btn-order-now {
-                            background-color: #00543c; /* Warna latar belakang awal */
-                            color: white; /* Warna teks tetap putih */
-                            border: none; /* Menghilangkan border */
-                            transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
-                        }
-                    
-                        .btn-order-now:hover {
-                            background-color: #79d856; /* Warna latar belakang saat hover */
-                            color: white; /* Warna teks tetap putih saat hover */
-                        }
-                    </style>
-                    
-                    <!-- Tombol Order Now -->
-                    <a href="#" class="btn btn-order-now rounded-pill d-inline-flex flex-shrink-0 py-2 px-4">Pesan WormiBox Sekarang</a>
-                    
+                    <a href="#" id="login-nav-link" class="btn btn-order-now rounded-pill d-inline-flex flex-shrink-0 py-2 px-4" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
                 </div>
             </nav>
         </div>
-        
 
-            <!-- Carousel Start -->
-            <div class="carousel-header">
-                <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active"></li>
-                        <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
-                        <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                            <img src="img/top-view-trash-cooking-concept.jpg" class="img-fluid w-100" alt="Image">
-                            <div class="carousel-caption-1">
-                                <div class="carousel-caption-1-content" style="max-width: 900px;">
-                                    <h3 class="display-4 text-capitalize text-white mb-4 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.3s" style="animation-delay: 1.3s; 
-                                    font-family: 'Playfair Display', serif; 
-                                    font-weight: 700; 
-                                    font-size: 3rem; 
-                                    color: #ffffff; 
-                                    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c; 
-                                    letter-spacing: 2px; 
-                                    text-transform: uppercase;"
-                             >
-                                        Inovasi Cerdas, Sampah Tuntas, Bumi Puas!
-                                    </h3>
-                                    <p class="mb-5 fs-5 text-white fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.5s" style="animation-delay: 1.5s;">
-                                        Wujudkan pengelolaan sampah organik terbaik menjadi sumber daya bernilai melalui budidaya cacing tanah ANC dan teknologi IoT, untuk proses lebih efisien dan ramah lingkungan.
-                                    </p>
-                                    <div class="carousel-caption-1-content-btn fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.7s" style="animation-delay: 1.7s;">
-                                        <a href="#" 
-                                           style="background-color: #00543c; 
-                                                  color: white; 
-                                                  border: none; 
-                                                  border-radius: 50px; 
-                                                  padding: 15px 30px; 
-                                                  margin-right: 10px; 
-                                                  text-decoration: none; 
-                                                  display: inline-block; 
-                                                  transition: background-color 0.3s ease, color 0.3s ease;"
-                                           onmouseover="this.style.backgroundColor='#79d856'; this.style.color='white';" 
-                                           onmouseout="this.style.backgroundColor='#00543c'; this.style.color='white';">
-                                            Pesan WormiBox Sekarang
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="carousel-item">
-                            <img src="img/earthworms.jpg" class="img-fluid w-100" alt="Image">
-                            <div class="carousel-caption-2">
-                                <div class="carousel-caption-2-content" style="max-width: 900px;">
-                                    <h3 class="display-4 text-capitalize text-white mb-4 fadeInRight animated" data-animation="fadeInRight" data-delay="1.3s" style="animation-delay: 1.3s; 
-                                    font-family: 'Playfair Display', serif; 
-                                    font-weight: 700; 
-                                    font-size: 3rem; 
-                                    color: #ffffff; 
-                                    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c; 
-                                    letter-spacing: 2px; 
-                                    text-transform: uppercase;"
-                             >
-                                        Gerakan Cacing, Selamatkan Generasi! 
-                                    </h3>
-                                    <p class="mb-5 fs-5 text-white fadeInRight animated" data-animation="fadeInRight" data-delay="1.5s" style="animation-delay: 1.5s;">
-                                        Dengan kekuatan cacing, kami mengubah sampah organik menjadi sumber daya yang berguna, mendukung keberlanjutan, dan membantu melindungi bumi untuk generasi mendatang.
-                                    </p>
-                                    <div class="carousel-caption-2-content-btn fadeInRight animated" data-animation="fadeInRight" data-delay="1.7s" style="animation-delay: 1.7s;">
-                                        <a href="#" 
-                                           style="background-color: #00543c; 
-                                                  color: white; 
-                                                  border: none; 
-                                                  border-radius: 50px; 
-                                                  padding: 15px 30px; 
-                                                  margin-right: 10px; 
-                                                  text-decoration: none; 
-                                                  display: inline-block; 
-                                                  transition: background-color 0.3s ease, color 0.3s ease;"
-                                           onmouseover="this.style.backgroundColor='#79d856'; this.style.color='white';" 
-                                           onmouseout="this.style.backgroundColor='#00543c'; this.style.color='white';">
-                                            Pesan WormiBox Sekarang
-                                        </a>
-                                    </div>
+        <div class="carousel-header">
+            <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <img src="img/top-view-trash-cooking-concept.jpg" class="img-fluid w-100" alt="Image">
+                        <div class="carousel-caption-1">
+                            <div class="carousel-caption-1-content" style="max-width: 900px;">
+                                <h3 class="display-4 text-capitalize text-white mb-4 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.3s" style="animation-delay: 1.3s;
+                                font-family: 'Playfair Display', serif;
+                                font-weight: 700;
+                                font-size: 3rem;
+                                color: #ffffff;
+                                text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c;
+                                letter-spacing: 2px;
+                                text-transform: uppercase;">
+                                    Inovasi Cerdas, Sampah Tuntas, Bumi Puas!
+                                </h3>
+                                <p class="mb-5 fs-5 text-white fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.5s" style="animation-delay: 1.5s;">
+                                    Wujudkan pengelolaan sampah organik terbaik menjadi sumber daya bernilai melalui budidaya cacing tanah ANC dan teknologi IoT, untuk proses lebih efisien dan ramah lingkungan.
+                                </p>
+                                <div class="carousel-caption-1-content-btn fadeInLeft animated" data-animation="fadeInLeft" data-delay="1.7s" style="animation-delay: 1.7s;">
+                                    <a href="#"
+                                        style="background-color: #00543c;
+                                                color: white;
+                                                border: none;
+                                                border-radius: 50px;
+                                                padding: 15px 30px;
+                                                margin-right: 10px;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                transition: background-color 0.3s ease, color 0.3s ease;"
+                                        onmouseover="this.style.backgroundColor='#79d856'; this.style.color='white';"
+                                        onmouseout="this.style.backgroundColor='#00543c'; this.style.color='white';">
+                                        Pesan WormiBox Sekarang
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon btn btn-success fadeInLeft animated" aria-hidden="true" data-animation="fadeInLeft" data-delay="1.1s" style="animation-delay: 1.3s;"> <i class="fa fa-angle-left fa-3x"></i></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
-                        <span class="carousel-control-next-icon btn btn-primary fadeInRight animated" aria-hidden="true" data-animation="fadeInLeft" data-delay="1.1s" style="animation-delay: 1.3s;"><i class="fa fa-angle-right fa-3x"></i></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+
+                    <div class="carousel-item">
+                        <img src="img/earthworms.jpg" class="img-fluid w-100" alt="Image">
+                        <div class="carousel-caption-2">
+                            <div class="carousel-caption-2-content" style="max-width: 900px;">
+                                <h3 class="display-4 text-capitalize text-white mb-4 fadeInRight animated" data-animation="fadeInRight" data-delay="1.3s" style="animation-delay: 1.3s;
+                                font-family: 'Playfair Display', serif;
+                                font-weight: 700;
+                                font-size: 3rem;
+                                color: #ffffff;
+                                text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c;
+                                letter-spacing: 2px;
+                                text-transform: uppercase;">
+                                    Gerakan Cacing, Selamatkan Generasi!
+                                </h3>
+                                <p class="mb-5 fs-5 text-white fadeInRight animated" data-animation="fadeInRight" data-delay="1.5s" style="animation-delay: 1.5s;">
+                                    Dengan kekuatan cacing, kami mengubah sampah organik menjadi sumber daya yang berguna, mendukung keberlanjutan, dan membantu melindungi bumi untuk generasi mendatang.
+                                </p>
+                                <div class="carousel-caption-2-content-btn fadeInRight animated" data-animation="fadeInRight" data-delay="1.7s" style="animation-delay: 1.7s;">
+                                    <a href="#"
+                                        style="background-color: #00543c;
+                                                color: white;
+                                                border: none;
+                                                border-radius: 50px;
+                                                padding: 15px 30px;
+                                                margin-right: 10px;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                transition: background-color 0.3s ease, color 0.3s ease;"
+                                        onmouseover="this.style.backgroundColor='#79d856'; this.style.color='white';"
+                                        onmouseout="this.style.backgroundColor='#00543c'; this.style.color='white';">
+                                        Pesan WormiBox Sekarang
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon btn btn-success fadeInLeft animated" aria-hidden="true" data-animation="fadeInLeft" data-delay="1.1s" style="animation-delay: 1.3s;"> <i class="fa fa-angle-left fa-3x"></i></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                    <span class="carousel-control-next-icon btn btn-primary fadeInRight animated" aria-hidden="true" data-animation="fadeInLeft" data-delay="1.1s" style="animation-delay: 1.3s;"><i class="fa fa-angle-right fa-3x"></i></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <!-- Carousel End -->
-
-
-
- <!-- About Start -->
-<div id="whychooseus" class="container-fluid about overflow-hidden py-5" style="background-color: #a0c8a6;">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
-                <div class="about-img rounded h-130">
-                    <img src="img/WB-controller-hd - Copy.png" class="img-fluid rounded h-130 w-130" style="object-fit: cover;" alt="">
-                </div>
-            </div>
-            <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
-                <div class="about-item">
-                    <h1 class="display-5 text-capitalize mb-3" style="font-family: 'playfair display', sans-serif; 
-    font-weight: bold; 
-    font-size: 3rem; 
-    color: white; 
-    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c; 
-    letter-spacing: 2px; 
-    text-transform: uppercase;">
-    Mengapa WormiBox?
-</h1>
-
-<p class="mb-4" style="font-family: 'Poppins', sans-serif; font-weight: bold; text-align: justify; color: white; 
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
-Dengan memanfaatkan cacing tanah African Night Crawler (ANC) untuk penguraian sampah organik dan teknologi Internet of Things (IoT), WormiBox hadir sebagai alat pengelolaan sampah yang inovatif.
-</p>
-
-                    
-                    <!-- HTML -->
-                    <div class="bg-light rounded p-4 mb-4 pulse-card">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex">
-                                    <div class="pe-4">
-                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center zoom-on-hover" style="width: 80px; height: 80px;">
-                                            <img src="img/12.jpg" class="img-icon w-100" />
+        </div>
+        <div id="whychooseus" class="container-fluid about overflow-hidden py-5" style="background-color: #a0c8a6;">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="about-img rounded h-130">
+                            <img src="img/view1.png" class="img-fluid rounded h-200 w-200" style="object-fit: cover;" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="about-item">
+                            <h1 class="display-5 text-capitalize mb-3" style="font-family: 'playfair display', sans-serif;
+                            font-weight: bold;
+                            font-size: 3rem;
+                            color: white;
+                            text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c;
+                            letter-spacing: 2px;
+                            text-transform: uppercase;">
+                                Mengapa WormiBox?
+                            </h1>
+                            <p class="mb-4" style="font-family: 'Poppins', sans-serif; font-weight: bold; text-align: justify; color: white;
+                            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
+                                Dengan memanfaatkan cacing tanah African Night Crawler (ANC) untuk penguraian sampah organik dan teknologi Internet of Things (IoT), WormiBox hadir sebagai alat pengelolaan sampah yang inovatif.
+                            </p>
+                            <div class="bg-light rounded p-4 mb-4 pulse-card">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <div class="pe-4">
+                                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center zoom-on-hover" style="width: 80px; height: 80px;">
+                                                    <img src="img/12.jpg" class="img-icon w-100" />
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <a href="#" class="h4 d-inline-block mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">SDGs ke-12</a>
+                                                <p class="mb-0" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Konsumsi dan produksi yang bertanggung jawab</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <a href="#" class="h4 d-inline-block mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">SDGs ke-12</a>
-                                        <p class="mb-0" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Konsumsi dan produksi yang bertanggung jawab</p>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-light rounded p-4 mb-4 pulse-card">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex">
-                                    <div class="pe-4">
-                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center zoom-on-hover" style="width: 80px; height: 80px;">
-                                            <img src="img/13.png" class="img-icon w-100" />
+                            <div class="bg-light rounded p-4 mb-4 pulse-card">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <div class="pe-4">
+                                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center zoom-on-hover" style="width: 80px; height: 80px;">
+                                                    <img src="img/13.png" class="img-icon w-100" />
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <a href="#" class="h4 d-inline-block mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">SDGs ke-13</a>
+                                                <p class="mb-0" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Aksi terhadap perubahan iklim</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <a href="#" class="h4 d-inline-block mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">SDGs ke-13</a>
-                                        <p class="mb-0" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Aksi terhadap perubahan iklim</p>
-                                    </div>
                                 </div>
                             </div>
+
+                            <a href="https://sdgs.bappenas.go.id/" class="btn btn-secondary rounded-pill py-3 px-5 custom-btn">Jelajahi untuk Bumi Lebih Baik</a>
                         </div>
                     </div>
-
-                    <a href="https://sdgs.bappenas.go.id/" class="btn btn-secondary rounded-pill py-3 px-5 custom-btn">Jelajahi untuk Bumi Lebih Baik</a>
-
-                    <style>
-                        /* Pulse animation */
-                        @keyframes pulse {
-                            0% {
-                                transform: scale(1);
-                                box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
-                            }
-                            50% {
-                                transform: scale(1.05);
-                                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-                            }
-                            100% {
-                                transform: scale(1);
-                                box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
-                            }
-                        }
-
-                        .pulse-card.pulse {
-                            animation: pulse 1s ease-in-out 4; /* Pulse animation runs 4 times */
-                        }
-
-                        /* Zoom effect on hover */
-                        .zoom-on-hover:hover img {
-                            transform: scale(1.2);
-                            transition: transform 0.3s ease-in-out;
-                        }
-
-                        /* Custom button styling */
-                        .custom-btn {
-                            background-color: #00543c !important;
-                            color: white !important;
-                            transition: background-color 0.3s ease;
-                            border: none;
-                        }
-
-                        .custom-btn:hover {
-                            background-color: #79d856 !important;
-                            color: white !important;
-                        }
-                    </style>
-
-                    <script>
-                        const pulseCards = document.querySelectorAll('.pulse-card');
-                        const onScroll = () => {
-                            pulseCards.forEach((card) => {
-                                const rect = card.getBoundingClientRect();
-                                if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-                                    if (!card.classList.contains('pulse')) {
-                                        card.classList.add('pulse');
-                                        setTimeout(() => {
-                                            card.classList.remove('pulse');
-                                        }, 3000); 
-                                    }
-                                }
-                            });
-                        };
-                        window.addEventListener('scroll', onScroll);
-                        window.addEventListener('load', onScroll);
-                    </script>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- About End -->
-
-
-         <!-- Fact Counter -->
-<div class="container-fluid counter py-5" style="background-color: #00543c;">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
-                <div class="counter-item">
-                    <div class="counter-item-icon mx-auto">
-                        <i class="fas fa-trash-alt fa-3x text-white"></i>
-                    </div>
-                    <h4 class="text-white my-4" style="font-family: 'Playfair Display', serif;">Timbunan Sampah Nasional</h4>
+        <div class="container-fluid counter py-5" style="background-color: #00543c;">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="counter-item">
+                            <div class="counter-item-icon mx-auto">
+                                <i class="fas fa-trash-alt fa-3x text-white"></i>
+                            </div>
+                            <h4 class="text-white my-4" style="font-family: 'Playfair Display', serif;">Timbunan Sampah Nasional</h4>
                             <div class="counter-counting">
                                 <span class="text-white fs-2 fw-bold" data-toggle="counter-up">33.9</span>
                                 <span class="h4 fw-bold text-white">juta ton</span>
@@ -387,18 +530,15 @@ Dengan memanfaatkan cacing tanah African Night Crawler (ANC) untuk penguraian sa
                 </div>
             </div>
         </div>
-        <!-- Fact Counter -->
-
-        <!-- feature Start -->
         <div class="container-fluid feature py-5" style="background-color: #c3e6c8;">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h1 class="display-3 text-capitalize mb-3" style="font-family: 'playfair display', sans-serif; 
-                    font-weight: bold; 
-                    font-size: 3rem; 
-                    color: white; 
-                    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c; 
-                    letter-spacing: 2px; 
+                    <h1 class="display-3 text-capitalize mb-3" style="font-family: 'playfair display', sans-serif;
+                    font-weight: bold;
+                    font-size: 3rem;
+                    color: white;
+                    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px #00543c;
+                    letter-spacing: 2px;
                     text-transform: uppercase;">
                         Teknologi Modern untuk Masa Depan Anda
                     </h1>
@@ -416,12 +556,11 @@ Dengan memanfaatkan cacing tanah African Night Crawler (ANC) untuk penguraian sa
                             </p>
                         </div>
                     </div>
-                    <div class=" col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="feature-item p-4">
                             <div class="feature-icon mb-3"><i class="fas fa-microchip text-white fa-3x"></i></div>
                             <a href="#" class="h4 mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; font-style: italic; color: #333;">IoT-Driven Efficiency</a>
                             <p class="mb-3" style="font-family: 'Poppins', sans-serif; color: #333;">Melalui Internet of Things (IoT), sistem pemantauan dan pengelolaan sampah dapat diotomatisasi dan diakses secara langsung (real-time), yang berkontribusi pada peningkatan kemudahan penggunaan serta pencapaian efisiensi yang optimal.
-                        
                             </p>
                         </div>
                     </div>
@@ -454,101 +593,279 @@ Dengan memanfaatkan cacing tanah African Night Crawler (ANC) untuk penguraian sa
                 </div>
             </div>
         </div>
-        <!-- feature End -->
+        <div class="container-fluid footer wow fadeIn" data-wow-delay="0.2s" style="background-color: #a0c8a6; padding-top: 2.5rem; padding-bottom: 2.5rem !important;">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <div class="footer-item d-flex flex-column text-center text-lg-start h-100">
+                            <h3 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #00543c;">
+                                <img src="img/logo-WormiBox.png" alt="WormiBox Logo" style="height: 1.2em; vertical-align: middle; margin-right: 0.3em;">WormiBox
+                            </h3>
+                            <div class="d-flex justify-content-center justify-content-lg-start mt-2">
+                                <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-tiktok"></i></a>
+                                <a class="btn btn-md-square rounded-circle social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <div class="footer-item d-flex flex-column h-100">
+                            <a class="mb-1" href="#whychooseus" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Kenapa WormiBox?</a>
+                            <a class="mb-1" href="about.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Tentang WormiBox</a>
+                            <a class="mb-1" href="product.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Solusi Kami</a>
+                            <a class="mb-1" href="service.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Layanan & Dukungan</a>
+                            <a href="contact.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Hubungi Tim</a>
+                        </div>
+                    </div>
 
-<!-- Footer Start -->
-<div class="container-fluid footer wow fadeIn" data-wow-delay="0.2s" style="background-color: #a0c8a6; padding-top: 2.5rem; padding-bottom: 2.5rem !important;">
-    <div class="container"> <!-- Menghapus py-4 untuk kontrol padding yang lebih baik dari container-fluid -->
-        <div class="row g-4"> <!-- Menggunakan g-4 untuk gutter yang sedikit lebih kecil, bisa disesuaikan ke g-5 jika preferensi -->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <div class="footer-item d-flex flex-column h-100">
+                            <h4 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #ffffff !important;">Jam Operasional</h4>
+                            <div class="mb-2">
+                                <p class="mb-0" style="color: #555 !important; font-weight: 600;">Senin - Jumat:</p>
+                                <p class="mb-0 ps-1" style="color: #333 !important;">08.00 - 21.00 WIB</p>
+                            </div>
+                            <div>
+                                <p class="mb-0" style="color: #555 !important; font-weight: 600;">Sabtu & Minggu:</p>
+                                <p class="mb-0 ps-1" style="color: #333 !important;">09.00 - 19.00 WIB</p>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Kolom 1: WormiBox (Logo & Sosial Media) -->
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <div class="footer-item d-flex flex-column text-center text-lg-start h-100">
-                    <h3 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #00543c;">
-                        <img src="img/logo-WormiBox.png" alt="WormiBox Logo" style="height: 1.2em; vertical-align: middle; margin-right: 0.3em;">WormiBox
-                    </h3>
-                    <div class="d-flex justify-content-center justify-content-lg-start mt-2">
-                        <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-md-square rounded-circle me-2 social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-tiktok"></i></a>
-                        <a class="btn btn-md-square rounded-circle social-icon" href="#" style="background-color: #00543c; color: #ffffff;"><i class="fab fa-youtube"></i></a>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item d-flex flex-column h-100">
+                            <h4 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #ffffff !important;">Hubungi Kami</h4>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-white me-2"></i>
+                                <p class="mb-0" style="color: #333 !important;">Surakarta, Jawa Tengah, Indonesia</p>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-envelope text-white me-2"></i>
+                                <p class="mb-0" style="color: #333 !important;">wormibox@gmail.com</p>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-phone-alt text-white me-2"></i>
+                                <p class="mb-0" style="color: #333 !important;">+62 856-4242-2007</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-mobile-alt text-white me-2"></i>
+                                <p class="mb-0" style="color: #333 !important;">+62 812-</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Kolom 2: Navigasi -->
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <div class="footer-item d-flex flex-column h-100">
-                    <!-- <h4 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #00543c !important;">Tentang</h4> -->
-                    <a class="mb-1" href="index.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Kenapa WormiBox?</a>
-                    <a class="mb-1" href="about.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Tentang WormiBox</a>
-                    <a class="mb-1" href="product.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Solusi Kami</a>
-                    <a class="mb-1" href="service.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Layanan & Dukungan</a>
-                    <a href="contact.html" style="color: #333 !important; text-decoration: none;"><i class="fas fa-angle-right me-2"></i>Hubungi Tim</a>
-                </div>
-            </div>
-
-            <!-- Kolom 3: Jam Operasional -->
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <div class="footer-item d-flex flex-column h-100">
-                    <h4 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #ffffff !important;">Jam Operasional</h4>
-                    <div class="mb-2">
-                        <p class="mb-0" style="color: #555 !important; font-weight: 600;">Senin - Jumat:</p>
-                        <p class="mb-0 ps-1" style="color: #333 !important;">08.00 - 21.00 WIB</p>
-                    </div>
-                    <div>
-                        <p class="mb-0" style="color: #555 !important; font-weight: 600;">Sabtu & Minggu:</p>
-                        <p class="mb-0 ps-1" style="color: #333 !important;">09.00 - 19.00 WIB</p>
-                    </div>
-                </div>
-            </div>
-
-                  
-<!-- Kolom 4: Info Kontak -->
-            <div class="col-lg-3 col-md-6">
-                <div class="footer-item d-flex flex-column h-100">
-                    <h4 class="mb-3" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #ffffff !important;">Info Kontak</h4>
-                    <div class="d-flex align-items-center mb-2"> <!-- Diubah ke align-items-center -->
-                        <i class="fa fa-map-marker-alt me-2" style="color: #00543c;"></i> <!-- Hapus mt-1 jika ada -->
-                        <span style="color: #333 !important;">Kec Depok, Kab Sleman, DIY</span>
-                    </div>
-                    <div class="d-flex align-items-center"> <!-- Diubah ke align-items-center -->
-                        <i class="fas fa-envelope me-2" style="color: #00543c;"></i> <!-- Hapus mt-1 jika ada -->
-                        <a href="mailto:wormibox@gmail.com" style="color: #333 !important; text-decoration: none;">wormibox@gmail.com</a>
-                    </div>
-                </div>
-            </div>
-
-    
         </div>
     </div>
-</div>
-<!-- Footer End -->
 
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login ke Dashboard</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <form id="login-form">
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Masukkan email Anda" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Kata Sandi</label>
+                            <input type="password" id="password" placeholder="Masukkan kata sandi" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom">Login</button>
+                        <p class="error-message" id="login-error"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-secondary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
-<!-- Custom CSS for Hover Effect -->
-<style>
-    .social-icon:hover {
-        background-color: #79d856 !important;
-    }
-</style>
-        
-    <!-- JavaScript Libraries -->
+    <div id="dashboard-page" class="dashboard-container">
+        <header class="header">
+            <h2>Dashboard Kontrol Cacing</h2>
+            <button id="logout-btn" class="btn logout-btn">Logout</button>
+        </header>
+
+        <div class="sensor-data-container">
+            <div class="card">
+                <h3>Suhu</h3>
+                <p id="temperature-value" class="data-value">-- °C</p>
+            </div>
+            <div class="card">
+                <h3>Kelembaban</h3>
+                <p id="humidity-value" class="data-value">-- %</p>
+            </div>
+        </div>
+
+        <div class="control-container">
+            <h3>Kontrol Pompa</h3>
+            <div class="toggle-switch">
+                <input type="checkbox" id="pump-toggle">
+                <label for="pump-toggle"></label>
+            </div>
+            <p id="pump-status" class="status-text">Pompa: Nonaktif</p>
+        </div>
+    </div>
+
+    <script>
+        // Logika JavaScript
+        // Konfigurasi Firebase Anda
+        // **Ganti dengan konfigurasi Anda dari Firebase Console**
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Elemen HTML
+        const mainContent = document.getElementById('main-content');
+        const dashboardPage = document.getElementById('dashboard-page');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const logoutBtn = document.getElementById('logout-btn');
+        const tempValue = document.getElementById('temperature-value');
+        const humValue = document.getElementById('humidity-value');
+        const pumpToggle = document.getElementById('pump-toggle');
+        const pumpStatus = document.getElementById('pump-status');
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+
+        // Fungsi untuk menampilkan/menyembunyikan halaman
+        const showContent = (contentToShow) => {
+            if (contentToShow === 'dashboard') {
+                mainContent.style.display = 'none';
+                dashboardPage.style.display = 'flex';
+                document.body.style.justifyContent = 'flex-start';
+                document.body.style.alignItems = 'flex-start';
+                document.body.style.padding = '20px';
+            } else {
+                mainContent.style.display = 'block';
+                dashboardPage.style.display = 'none';
+                document.body.style.justifyContent = 'center';
+                document.body.style.alignItems = 'center';
+                document.body.style.padding = '0';
+            }
+        };
+
+        // Cek status autentikasi saat halaman dimuat
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User sudah login, tampilkan dashboard
+                showContent('dashboard');
+                loginModal.hide();
+
+                // Set listener untuk data Realtime Database
+                const sensorRef = database.ref('sensor');
+                const pumpRef = database.ref('control/pompa');
+
+                // Dapatkan data sensor secara real-time
+                sensorRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        tempValue.textContent = `${data.suhu.toFixed(1)} °C`;
+                        humValue.textContent = `${data.kelembaban.toFixed(1)} %`;
+                    } else {
+                        tempValue.textContent = '-- °C';
+                        humValue.textContent = '-- %';
+                    }
+                });
+
+                // Dapatkan status pompa saat ini dari database
+                pumpRef.on('value', (snapshot) => {
+                    const status = snapshot.val();
+                    if (status !== null) {
+                        pumpToggle.checked = status;
+                        pumpStatus.textContent = `Pompa: ${status ? 'Aktif' : 'Nonaktif'}`;
+                    }
+                });
+
+                // Dengarkan perubahan tombol pompa
+                pumpToggle.addEventListener('change', () => {
+                    const newStatus = pumpToggle.checked;
+                    pumpRef.set(newStatus)
+                        .then(() => {
+                            console.log('Status pompa berhasil diperbarui');
+                        })
+                        .catch((error) => {
+                            console.error('Gagal memperbarui status pompa:', error);
+                        });
+                });
+
+                // Logout
+                logoutBtn.addEventListener('click', () => {
+                    auth.signOut().then(() => {
+                        console.log('Logout berhasil');
+                    }).catch((error) => {
+                        console.error('Logout gagal:', error);
+                    });
+                });
+
+            } else {
+                // User belum login, tampilkan halaman utama
+                showContent('main');
+            }
+        });
+
+        // Logika form login
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = loginForm['email'].value;
+                const password = loginForm['password'].value;
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        console.log('Login berhasil');
+                        loginModal.hide();
+                    })
+                    .catch((error) => {
+                        console.error('Login gagal:', error.message);
+                        loginError.textContent = 'Email atau kata sandi salah. Silakan coba lagi.';
+                    });
+            });
+        }
+
+        // Script untuk animasi pada elemen saat di-scroll
+        const pulseCards = document.querySelectorAll('.pulse-card');
+        const onScroll = () => {
+            pulseCards.forEach((card) => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                    if (!card.classList.contains('pulse')) {
+                        card.classList.add('pulse');
+                        setTimeout(() => {
+                            card.classList.remove('pulse');
+                        }, 3000);
+                    }
+                }
+            });
+        };
+        window.addEventListener('scroll', onScroll);
+        window.addEventListener('load', onScroll);
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    
+    <script src="lib/counterup/counterup.min.js"></script>
 
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    </body>
-
+</body>
 </html>
