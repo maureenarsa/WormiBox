@@ -27,6 +27,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -283,7 +284,73 @@
             background-color: #79d856 !important;
             color: white !important;
         }
+        
     </style>
+
+    <style>
+/* ==================== Responsive Breakpoints ==================== */
+
+/* Tablet (≤ 992px) */
+@media (max-width: 992px) {
+    .sensor-data-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .card {
+        max-width: 45%;
+    }
+}
+
+/* Mobile Landscape & Small Tablet (≤ 768px) */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+    .sensor-data-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        max-width: 80%;
+        margin-bottom: 15px;
+    }
+    .control-container {
+        padding: 15px;
+    }
+    .btn-custom,
+    .btn-order-now {
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
+/* Mobile Portrait (≤ 576px) */
+@media (max-width: 576px) {
+    header h1, .modal-body-custom h2 {
+        font-size: 1.5rem;
+    }
+    .modal-body-custom {
+        padding: 20px;
+    }
+    .input-group input {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    .data-value {
+        font-size: 2em;
+    }
+    .card h3 {
+        font-size: 1.1em;
+    }
+    nav, .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
+
 </head>
 
 <body>
