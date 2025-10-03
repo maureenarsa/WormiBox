@@ -27,7 +27,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -46,7 +45,137 @@
     </style>
 
     <style>
-        /* CSS Halaman Login dan Dashboard */
+        /* CSS Popup Login Eco Feeders */
+        .eco-login-card {
+            border-radius: 20px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            font-family: 'Poppins', 'Inter', sans-serif;
+        }
+
+        .eco-login-header {
+            background-color: #ffffff;
+            padding: 25px 25px 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .eco-welcome-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #004D2A;
+            margin: 0 0 5px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .eco-login-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #004D2A;
+            margin: 0;
+        }
+
+        .eco-login-body {
+            background: linear-gradient(135deg, #024535 0%, #05AB83 100%);
+            padding: 20px 25px 25px;
+        }
+
+        .eco-form-group {
+            margin-bottom: 15px;
+        }
+
+        .eco-form-label {
+            display: block;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .eco-form-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ffffff;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .eco-form-input::placeholder {
+            color: #BEBEBE;
+            font-weight: 400;
+        }
+
+        .eco-form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .eco-login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #E17B3C 0%, #7B4321 100%);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 18px;
+            text-transform: none;
+        }
+
+        .eco-login-btn:hover {
+            background: linear-gradient(135deg, #C85A1C 0%, #A1431C 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(216, 106, 44, 0.3);
+        }
+
+        .eco-signup-section {
+            text-align: center;
+        }
+
+        .eco-signup-text {
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 400;
+            margin: 0 0 8px 0;
+        }
+
+        .eco-signup-btn {
+            background-color: #DFF3E8;
+            color: #004D2A;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .eco-signup-btn:hover {
+            background-color: #D0EEDD;
+            transform: translateY(-1px);
+        }
+
+        /* Error Message Styling */
+        #loginModal .error-message {
+            color: #FFB3B3;
+            margin-top: 15px;
+            text-align: center;
+            min-height: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* CSS Halaman Login dan Dashboard (Legacy) */
         .modal-body-custom {
             padding: 40px;
             text-align: center;
@@ -284,73 +413,7 @@
             background-color: #79d856 !important;
             color: white !important;
         }
-        
     </style>
-
-    <style>
-/* ==================== Responsive Breakpoints ==================== */
-
-/* Tablet (≤ 992px) */
-@media (max-width: 992px) {
-    .sensor-data-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .card {
-        max-width: 45%;
-    }
-}
-
-/* Mobile Landscape & Small Tablet (≤ 768px) */
-@media (max-width: 768px) {
-    .dashboard-container {
-        padding: 20px;
-        margin: 20px auto;
-    }
-    .sensor-data-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .card {
-        max-width: 80%;
-        margin-bottom: 15px;
-    }
-    .control-container {
-        padding: 15px;
-    }
-    .btn-custom,
-    .btn-order-now {
-        width: 100%;
-        font-size: 14px;
-    }
-}
-
-/* Mobile Portrait (≤ 576px) */
-@media (max-width: 576px) {
-    header h1, .modal-body-custom h2 {
-        font-size: 1.5rem;
-    }
-    .modal-body-custom {
-        padding: 20px;
-    }
-    .input-group input {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-    .data-value {
-        font-size: 2em;
-    }
-    .card h3 {
-        font-size: 1.1em;
-    }
-    nav, .navbar {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-</style>
-
 </head>
 
 <body>
@@ -733,24 +796,33 @@
     </div>
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login ke Dashboard</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 450px;">
+            <div class="modal-content eco-login-card">
+                <!-- Header dengan background putih -->
+                <div class="eco-login-header">
+                    <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" 
+                            style="top: 15px; right: 15px; z-index: 10;"></button>
+                    <h1 class="eco-welcome-title" style="font-family: 'Poppins', sans-serif; font-weight: bold; font-style: italic;">Welcome, Eco Feeders!</h1>
+                    <h2 class="eco-login-subtitle" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Login</h2>
                 </div>
-                <div class="modal-body modal-body-custom">
+                
+                <!-- Body dengan background hijau gradasi -->
+                <div class="eco-login-body">
                     <form id="login-form">
-                        <div class="input-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Masukkan email Anda" required>
+                        <div class="eco-form-group">
+                            <label for="email" class="eco-form-label">Email</label>
+                            <input type="email" id="email" class="eco-form-input" placeholder="Masukkan Email Anda" required>
                         </div>
-                        <div class="input-group">
-                            <label for="password">Kata Sandi</label>
-                            <input type="password" id="password" placeholder="Masukkan kata sandi" required>
+                        <div class="eco-form-group">
+                            <label for="password" class="eco-form-label">Password</label>
+                            <input type="password" id="password" class="eco-form-input" placeholder="Masukkan Password Anda" required>
                         </div>
-                        <button type="submit" class="btn btn-custom">Login</button>
-                        <p class="error-message" id="login-error"></p>
+                        <button type="submit" class="eco-login-btn">Login</button>
+                        
+                        <div class="eco-signup-section">
+                            <p class="eco-signup-text">Don't Have An Account Yet?</p>
+                            <button type="button" class="eco-signup-btn">Sign In to WormiBox</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -786,14 +858,13 @@
 
     <script>
         // Logika JavaScript
-        // Konfigurasi Firebase Anda
-        // **Ganti dengan konfigurasi Anda dari Firebase Console**
+        // Konfigurasi Firebase
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            apiKey: "AIzaSyAQJxouh3wBFN1VA7TZ8JyVCPUbHaj7T34",
+            authDomain: "wormiboxdb.firebaseapp.com",
+            databaseURL: "https://wormiboxdb-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "wormiboxdb",
+            storageBucket: "wormiboxdb.appspot.com",
             messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
             appId: "YOUR_APP_ID"
         };
@@ -835,9 +906,9 @@
         // Cek status autentikasi saat halaman dimuat
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // User sudah login, tampilkan dashboard
-                showContent('dashboard');
-                loginModal.hide();
+                // User sudah login, redirect ke dashboard.html
+                console.log('User logged in, redirecting to dashboard...');
+                window.location.href = 'dashboard.html';
 
                 // Set listener untuk data Realtime Database
                 const sensorRef = database.ref('sensor');
@@ -898,14 +969,46 @@
                 const email = loginForm['email'].value;
                 const password = loginForm['password'].value;
 
+                // Show loading state
+                const loginButton = loginForm.querySelector('.eco-login-btn');
+                const originalText = loginButton.textContent;
+                loginButton.textContent = 'Logging in...';
+                loginButton.disabled = true;
+
                 auth.signInWithEmailAndPassword(email, password)
-                    .then(() => {
-                        console.log('Login berhasil');
+                    .then((userCredential) => {
+                        console.log('Login berhasil:', userCredential.user.email);
+                        
+                        // Buat atau update data user di database
+                        const user = userCredential.user;
+                        const sanitizedEmail = user.email.replace(/[.#$[\]]/g, '_');
+                        
+                        // Inisialisasi data default jika belum ada
+                        const userRef = database.ref(`users/${sanitizedEmail}`);
+                        userRef.once('value', (snapshot) => {
+                            if (!snapshot.exists()) {
+                                // Set default data untuk user baru
+                                userRef.set({
+                                    email: user.email,
+                                    suhu: 36.5,
+                                    kelembapan: 45,
+                                    timestamp: new Date().toISOString()
+                                }).then(() => {
+                                    console.log('Default data set for new user');
+                                });
+                            }
+                        });
+
                         loginModal.hide();
+                        // Redirect akan terjadi otomatis melalui onAuthStateChanged
                     })
                     .catch((error) => {
                         console.error('Login gagal:', error.message);
                         loginError.textContent = 'Email atau kata sandi salah. Silakan coba lagi.';
+                        
+                        // Reset button state
+                        loginButton.textContent = originalText;
+                        loginButton.disabled = false;
                     });
             });
         }
