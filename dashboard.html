@@ -222,6 +222,11 @@
             letter-spacing: -1px;
         }
 
+        .gauge-value.placeholder {
+            color: #CCCCCC;
+            font-style: italic;
+        }
+
         .gauge-status {
             font-size: 18px;
             font-weight: 700;
@@ -237,6 +242,11 @@
 
         .status-warning {
             color: var(--danger-red);
+        }
+
+        .status-placeholder {
+            color: #999999;
+            font-style: italic;
         }
 
         /* ===========================================
@@ -398,7 +408,7 @@
                         <h3>Humidity</h3>
                     </div>
                 </div>
-                <div class="summary-value" id="summary-humidity">54%</div>
+                <div class="summary-value" id="summary-humidity">--</div>
             </div>
 
             <div class="summary-card fade-in">
@@ -410,7 +420,7 @@
                         <h3>Timestamp</h3>
                     </div>
                 </div>
-                <div class="summary-value" id="summary-timestamp">98</div>
+                <div class="summary-value" id="summary-timestamp">--</div>
             </div>
 
             <div class="summary-card fade-in">
@@ -422,7 +432,7 @@
                         <h3>Temperature</h3>
                     </div>
                 </div>
-                <div class="summary-value" id="summary-temperature">36,9°C</div>
+                <div class="summary-value" id="summary-temperature">--</div>
             </div>
         </div>
 
@@ -436,8 +446,8 @@
                     <svg class="gauge-svg" id="humidity-gauge">
                         <!-- SVG gauge akan dirender oleh JavaScript -->
                     </svg>
-                    <div class="gauge-value" id="humidity-value" aria-live="polite">---%</div>
-                    <div class="gauge-status" id="humidity-status">Memuat...</div>
+                    <div class="gauge-value" id="humidity-value" aria-live="polite">--</div>
+                    <div class="gauge-status" id="humidity-status">Menunggu data sensor...</div>
                 </div>
 
                 <div class="chart-section">
@@ -457,8 +467,8 @@
                     <svg class="gauge-svg" id="temperature-gauge">
                         <!-- SVG gauge akan dirender oleh JavaScript -->
                     </svg>
-                    <div class="gauge-value" id="temperature-value" aria-live="polite">---°C</div>
-                    <div class="gauge-status" id="temperature-status">Memuat...</div>
+                    <div class="gauge-value" id="temperature-value" aria-live="polite">--</div>
+                    <div class="gauge-status" id="temperature-status">Menunggu data sensor...</div>
                 </div>
 
                 <div class="chart-section">
@@ -486,8 +496,8 @@
             databaseURL: "https://wormiboxdb-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "wormiboxdb",
             storageBucket: "wormiboxdb.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
         };
 
         // Initialize Firebase
@@ -533,7 +543,7 @@
            =========================================== */
         
         // Interval polling data (dalam milisecond)
-        const POLL_INTERVAL_MS = 5000; // 5 detik
+        const POLL_INTERVAL_MS = 10000; // 10 detik
         
         // Range untuk gauge
         const HUMIDITY_RANGE = {
@@ -589,6 +599,16 @@
             }, 5000);
         }
 
+        function showPlaceholderState() {
+            // Tampilkan pesan info bahwa belum ada data
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.innerHTML = `
+                <div style="background: #e8f4fd; color: #1565c0; padding: 12px 20px; border-radius: 16px; margin-bottom: 20px; text-align: center; font-weight: 500; border: 1px solid #bbdefb;">
+                    📊 Belum ada data sensor untuk akun ini. Silakan tunggu data pertama dari perangkat sensor.
+                </div>
+            `;
+        }
+
         function addLoadingState() {
             document.querySelector('.dashboard-container').classList.add('loading');
         }
@@ -607,29 +627,55 @@
                     throw new Error('No authenticated user');
                 }
 
-                // Get user-specific data path using sanitized email
-                const userEmail = window.currentUser.email;
-                const sanitizedEmail = userEmail.replace(/[.#$[\]]/g, '_');
+                // Get user-specific data path using User ID (not email)
+                const userId = window.currentUser.uid;
                 
                 // Import Firebase functions
                 const { ref, get } = await import("https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js");
                 
-                // Get user data from Firebase Realtime Database
-                const userDataRef = ref(window.firebaseDatabase, `users/${sanitizedEmail}`);
-                const snapshot = await get(userDataRef);
+                // Get today's date in YYYY-MM-DD format
+                const today = new Date().toISOString().split('T')[0];
+                
+                // Get sensor data from Firebase Realtime Database
+                // Path: users/{userId}/sensors/Worm1/byDay/{date}
+                const sensorDataRef = ref(window.firebaseDatabase, `users/${userId}/sensors/Worm1/byDay/${today}`);
+                const snapshot = await get(sensorDataRef);
                 
                 if (!snapshot.exists()) {
-                    throw new Error('No data found for this user');
+                    // Try yesterday's data if today's data doesn't exist
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yesterdayStr = yesterday.toISOString().split('T')[0];
+                    
+                    const yesterdayRef = ref(window.firebaseDatabase, `users/${userId}/sensors/Worm1/byDay/${yesterdayStr}`);
+                    const yesterdaySnapshot = await get(yesterdayRef);
+                    
+                    if (!yesterdaySnapshot.exists()) {
+                        throw new Error('No sensor data found for this user');
+                    }
+                    
+                    // Use yesterday's data
+                    const yesterdayData = yesterdaySnapshot.val();
+                    const latestRecord = getLatestRecord(yesterdayData);
+                    const parsedData = parseRecordData(latestRecord, yesterdayStr);
+                    
+                    currentData = parsedData;
+                    updateDashboard();
+                    
+                    if (isFirstLoad) {
+                        removeLoadingState();
+                        isFirstLoad = false;
+                    }
+
+                    console.log('Using yesterday data for user:', userId, parsedData);
+                    return;
                 }
 
-                const data = snapshot.val();
+                const todayData = snapshot.val();
                 
-                // Parse data dari Firebase
-                const parsedData = {
-                    humidity: parseFloat(data.kelembapan || data.humidity || '0'),
-                    temperature: parseFloat(data.suhu || data.temperature || '0'),
-                    timestamp: data.timestamp || new Date().toLocaleString('id-ID')
-                };
+                // Get the latest record from today's data
+                const latestRecord = getLatestRecord(todayData);
+                const parsedData = parseRecordData(latestRecord, today);
 
                 currentData = parsedData;
                 updateDashboard();
@@ -639,25 +685,71 @@
                     isFirstLoad = false;
                 }
 
-                console.log('Data berhasil dimuat untuk user:', userEmail, parsedData);
+                console.log('Data berhasil dimuat untuk user:', userId, parsedData);
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
-                showError(`Gagal memuat data: ${error.message}`);
+                showError(`Gagal memuat data sensor`);
                 
-                // Fallback data jika tidak ada data di database
+                // Placeholder netral jika tidak ada data di database
                 if (isFirstLoad) {
                     currentData = {
-                        humidity: 45,
-                        temperature: 36.5,
-                        timestamp: new Date().toLocaleString('id-ID')
+                        humidity: 0,
+                        temperature: 0,
+                        timestamp: '--'
                     };
                     updateDashboard();
                     removeLoadingState();
                     isFirstLoad = false;
-                    showError('Menggunakan data demo - data pengguna belum tersedia');
+                    showPlaceholderState();
                 }
             }
+        }
+
+        /* ===========================================
+           DATA PARSING HELPER FUNCTIONS
+           =========================================== */
+        
+        function getLatestRecord(dayData) {
+            // dayData contains records with timestamp keys like "-Oaa3pooW_o5lQKG2IaE"
+            // Each record has: deviceId, hum, rssi, t (timestamp), temp, timeStr, tz
+            
+            if (!dayData || typeof dayData !== 'object') {
+                return null;
+            }
+            
+            let latestRecord = null;
+            let latestTimestamp = 0;
+            
+            // Iterate through all records to find the latest one
+            for (const recordKey in dayData) {
+                const record = dayData[recordKey];
+                if (record && record.t && record.t > latestTimestamp) {
+                    latestTimestamp = record.t;
+                    latestRecord = record;
+                }
+            }
+            
+            return latestRecord;
+        }
+        
+        function parseRecordData(record, dateStr) {
+            if (!record) {
+                throw new Error('No record data available');
+            }
+            
+            // Convert timestamp to readable format
+            const timestamp = record.t ? new Date(record.t).toLocaleString('id-ID') : 
+                            (record.timeStr ? `${dateStr} ${record.timeStr}` : 
+                            new Date().toLocaleString('id-ID'));
+            
+            return {
+                humidity: parseFloat(record.hum || '0'),
+                temperature: parseFloat(record.temp || '0'),
+                timestamp: timestamp,
+                deviceId: record.deviceId || 'Unknown',
+                rssi: record.rssi || 0
+            };
         }
 
         /* ===========================================
@@ -671,25 +763,53 @@
         }
 
         function updateSummaryCards() {
-            document.getElementById('summary-humidity').textContent = `${formatNumber(currentData.humidity)}%`;
-            document.getElementById('summary-temperature').textContent = `${formatNumber(currentData.temperature)}°C`;
-            document.getElementById('summary-timestamp').textContent = currentData.timestamp;
+            // Cek jika data kosong (placeholder state)
+            if (currentData.humidity === 0 && currentData.temperature === 0 && currentData.timestamp === '--') {
+                document.getElementById('summary-humidity').textContent = '--';
+                document.getElementById('summary-temperature').textContent = '--';
+                document.getElementById('summary-timestamp').textContent = 'Menunggu data...';
+            } else {
+                document.getElementById('summary-humidity').textContent = `${formatNumber(currentData.humidity)}%`;
+                document.getElementById('summary-temperature').textContent = `${formatNumber(currentData.temperature)}°C`;
+                document.getElementById('summary-timestamp').textContent = currentData.timestamp;
+            }
         }
 
         function updateGauges() {
-            // Update Humidity Gauge
-            updateHumidityGauge(currentData.humidity);
-            document.getElementById('humidity-value').textContent = `${Math.round(currentData.humidity)}%`;
-            document.getElementById('humidity-value').setAttribute('aria-label', `Humidity: ${Math.round(currentData.humidity)} percent`);
-            document.getElementById('humidity-status').textContent = getHumidityStatus(currentData.humidity);
-            document.getElementById('humidity-status').className = `gauge-status ${getHumidityStatusClass(currentData.humidity)}`;
+            // Cek jika data kosong (placeholder state)
+            if (currentData.humidity === 0 && currentData.temperature === 0 && currentData.timestamp === '--') {
+                // Update Humidity Gauge - placeholder
+                updateHumidityGaugePlaceholder();
+                document.getElementById('humidity-value').textContent = '--';
+                document.getElementById('humidity-value').className = 'gauge-value placeholder';
+                document.getElementById('humidity-value').setAttribute('aria-label', 'Humidity: No data available');
+                document.getElementById('humidity-status').textContent = 'Menunggu data sensor...';
+                document.getElementById('humidity-status').className = 'gauge-status status-placeholder';
 
-            // Update Temperature Gauge
-            updateTemperatureGauge(currentData.temperature);
-            document.getElementById('temperature-value').textContent = `${formatNumber(currentData.temperature)}°C`;
-            document.getElementById('temperature-value').setAttribute('aria-label', `Temperature: ${formatNumber(currentData.temperature)} degree celsius`);
-            document.getElementById('temperature-status').textContent = getTemperatureStatus(currentData.temperature);
-            document.getElementById('temperature-status').className = `gauge-status ${getTemperatureStatusClass(currentData.temperature)}`;
+                // Update Temperature Gauge - placeholder
+                updateTemperatureGaugePlaceholder();
+                document.getElementById('temperature-value').textContent = '--';
+                document.getElementById('temperature-value').className = 'gauge-value placeholder';
+                document.getElementById('temperature-value').setAttribute('aria-label', 'Temperature: No data available');
+                document.getElementById('temperature-status').textContent = 'Menunggu data sensor...';
+                document.getElementById('temperature-status').className = 'gauge-status status-placeholder';
+            } else {
+                // Update Humidity Gauge - with data
+                updateHumidityGauge(currentData.humidity);
+                document.getElementById('humidity-value').textContent = `${Math.round(currentData.humidity)}%`;
+                document.getElementById('humidity-value').className = 'gauge-value';
+                document.getElementById('humidity-value').setAttribute('aria-label', `Humidity: ${Math.round(currentData.humidity)} percent`);
+                document.getElementById('humidity-status').textContent = getHumidityStatus(currentData.humidity);
+                document.getElementById('humidity-status').className = `gauge-status ${getHumidityStatusClass(currentData.humidity)}`;
+
+                // Update Temperature Gauge - with data
+                updateTemperatureGauge(currentData.temperature);
+                document.getElementById('temperature-value').textContent = `${formatNumber(currentData.temperature)}°C`;
+                document.getElementById('temperature-value').className = 'gauge-value';
+                document.getElementById('temperature-value').setAttribute('aria-label', `Temperature: ${formatNumber(currentData.temperature)} degree celsius`);
+                document.getElementById('temperature-status').textContent = getTemperatureStatus(currentData.temperature);
+                document.getElementById('temperature-status').className = `gauge-status ${getTemperatureStatusClass(currentData.temperature)}`;
+            }
         }
 
         /* ===========================================
@@ -814,6 +934,42 @@
             createGaugeSVG('temperature-gauge', value, TEMPERATURE_RANGE.MIN, TEMPERATURE_RANGE.MAX, colors);
         }
 
+        function updateHumidityGaugePlaceholder() {
+            const container = document.getElementById('humidity-gauge');
+            container.innerHTML = `
+                <!-- Background Arc (inactive) -->
+                <path d="M 30 110 A 80 80 0 0 1 190 110" 
+                      stroke="#F0F0F0" 
+                      stroke-width="35" 
+                      fill="none"/>
+                
+                <!-- Placeholder message -->
+                <text x="110" y="75" 
+                      text-anchor="middle" 
+                      font-family="Inter, Poppins, system-ui" 
+                      font-size="12" 
+                      fill="#999999">No Data</text>
+            `;
+        }
+
+        function updateTemperatureGaugePlaceholder() {
+            const container = document.getElementById('temperature-gauge');
+            container.innerHTML = `
+                <!-- Background Arc (inactive) -->
+                <path d="M 30 110 A 80 80 0 0 1 190 110" 
+                      stroke="#F0F0F0" 
+                      stroke-width="35" 
+                      fill="none"/>
+                
+                <!-- Placeholder message -->
+                <text x="110" y="75" 
+                      text-anchor="middle" 
+                      font-family="Inter, Poppins, system-ui" 
+                      font-size="12" 
+                      fill="#999999">No Data</text>
+            `;
+        }
+
         /* ===========================================
            CHART RENDERING (Canvas)
            =========================================== */
@@ -828,6 +984,13 @@
         }
 
         function updateHistoryData() {
+            // Jika dalam state placeholder, kosongkan history
+            if (currentData.humidity === 0 && currentData.temperature === 0 && currentData.timestamp === '--') {
+                humidityHistory = [];
+                temperatureHistory = [];
+                return;
+            }
+            
             // Add current values to history
             humidityHistory.push(currentData.humidity);
             temperatureHistory.push(currentData.temperature);
@@ -838,21 +1001,6 @@
             }
             if (temperatureHistory.length > 7) {
                 temperatureHistory.shift();
-            }
-            
-            // Fill with dummy data if less than 7 points (for demo purposes)
-            while (humidityHistory.length < 7) {
-                const baseValue = currentData.humidity || 50; // Default fallback
-                const randomVariation = (Math.random() - 0.5) * 20; // ±10 variation
-                const dummyValue = Math.max(HUMIDITY_RANGE.MIN, Math.min(HUMIDITY_RANGE.MAX, baseValue + randomVariation));
-                humidityHistory.unshift(dummyValue);
-            }
-            
-            while (temperatureHistory.length < 7) {
-                const baseValue = currentData.temperature || 37; // Default fallback
-                const randomVariation = (Math.random() - 0.5) * 2; // ±1 variation
-                const dummyValue = Math.max(TEMPERATURE_RANGE.MIN, Math.min(TEMPERATURE_RANGE.MAX, baseValue + randomVariation));
-                temperatureHistory.unshift(dummyValue);
             }
         }
 
@@ -874,16 +1022,20 @@
             // Clear canvas
             ctx.clearRect(0, 0, width, height);
             
-            if (data.length === 0) return;
+            // Draw chart background (white)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            
+            if (data.length === 0) {
+                // Draw placeholder state
+                drawChartPlaceholder(ctx, width, height, padding, chartWidth, chartHeight, unit);
+                return;
+            }
             
             // Calculate min/max for scaling - match design
             const minValue = Math.min(...data) * 0.98;
             const maxValue = Math.max(...data) * 1.02;
             const valueRange = maxValue - minValue || 1;
-            
-            // Draw chart background (white)
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, width, height);
             
             // Draw horizontal grid lines
             ctx.strokeStyle = '#E6E6E6';
@@ -990,6 +1142,55 @@
             ctx.textBaseline = 'alphabetic';
         }
 
+        function drawChartPlaceholder(ctx, width, height, padding, chartWidth, chartHeight, unit) {
+            // Draw horizontal grid lines
+            ctx.strokeStyle = '#F0F0F0';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= 5; i++) {
+                const y = padding + (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(width - padding, y);
+                ctx.stroke();
+            }
+            
+            // Draw placeholder text
+            ctx.fillStyle = '#CCCCCC';
+            ctx.font = '16px Inter, Poppins, system-ui';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Belum ada data untuk ditampilkan', width / 2, height / 2);
+            
+            // Draw placeholder labels
+            ctx.fillStyle = '#999999';
+            ctx.font = '12px Inter, Poppins, system-ui';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            
+            // Y-axis placeholder labels
+            for (let i = 0; i <= 5; i++) {
+                const y = padding + (chartHeight / 5) * i;
+                ctx.fillText('--' + unit, padding - 8, y);
+            }
+            
+            // X-axis placeholder labels
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            
+            const today = new Date();
+            for (let i = 0; i < 7; i++) {
+                const x = padding + (chartWidth / 6) * i;
+                const date = new Date(today);
+                date.setDate(date.getDate() - (6 - i));
+                const dayMonth = `${date.getDate()} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][date.getMonth()]}`;
+                ctx.fillText(dayMonth, x, height - padding + 8);
+            }
+            
+            // Reset text properties
+            ctx.textBaseline = 'alphabetic';
+        }
+
         /* ===========================================
            INITIALIZATION & POLLING
            =========================================== */
@@ -1025,26 +1226,32 @@
             try {
                 const { ref, set } = await import("https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js");
                 
-                // Sample data for wormibox@gmail.com
-                const wormiboxEmail = 'wormibox_gmail_com';
-                const wormiboxRef = ref(window.firebaseDatabase, `users/${wormiboxEmail}`);
+                // Sample data with correct structure for demo user
+                const demoUserId = 'demo_user_123';
+                const today = new Date().toISOString().split('T')[0];
+                const timestamp = Date.now();
+                const timeStr = new Date().toLocaleTimeString('id-ID');
                 
-                await set(wormiboxRef, {
-                    email: 'wormibox@gmail.com',
-                    suhu: 36.8,
-                    kelembapan: 52,
-                    timestamp: new Date().toLocaleString('id-ID')
-                });
+                const demoUserRef = ref(window.firebaseDatabase, `users/${demoUserId}`);
                 
-                // Sample data for another user
-                const testEmail = 'test_user_gmail_com';
-                const testRef = ref(window.firebaseDatabase, `users/${testEmail}`);
-                
-                await set(testRef, {
-                    email: 'test.user@gmail.com',
-                    suhu: 37.2,
-                    kelembapan: 48,
-                    timestamp: new Date().toLocaleString('id-ID')
+                await set(demoUserRef, {
+                    sensors: {
+                        Worm1: {
+                            byDay: {
+                                [today]: {
+                                    [`demo_${timestamp}`]: {
+                                        deviceId: "Demo_Device",
+                                        hum: 52,
+                                        rssi: -70,
+                                        t: timestamp,
+                                        temp: 36.8,
+                                        timeStr: timeStr,
+                                        tz: "Asia/Jakarta"
+                                    }
+                                }
+                            }
+                        }
+                    }
                 });
                 
                 console.log('Sample data setup complete');

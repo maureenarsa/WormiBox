@@ -819,6 +819,8 @@
                         </div>
                         <button type="submit" class="eco-login-btn">Login</button>
                         
+                        <div id="login-error" class="error-message" style="min-height: 20px;"></div>
+                        
                         <div class="eco-signup-section">
                             <p class="eco-signup-text">Don't Have An Account Yet?</p>
                             <button type="button" class="eco-signup-btn">Sign In to WormiBox</button>
@@ -870,9 +872,11 @@
         };
 
         // Inisialisasi Firebase
+        console.log('Initializing Firebase...');
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
+        console.log('Firebase initialized successfully');
 
         // Elemen HTML
         const mainContent = document.getElementById('main-content');
@@ -884,7 +888,14 @@
         const humValue = document.getElementById('humidity-value');
         const pumpToggle = document.getElementById('pump-toggle');
         const pumpStatus = document.getElementById('pump-status');
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        let loginModal;
+
+        console.log('HTML Elements found:', {
+            mainContent: !!mainContent,
+            dashboardPage: !!dashboardPage,
+            loginForm: !!loginForm,
+            loginError: !!loginError
+        });
 
         // Fungsi untuk menampilkan/menyembunyikan halaman
         const showContent = (contentToShow) => {
@@ -908,66 +919,26 @@
             if (user) {
                 // User sudah login, redirect ke dashboard.html
                 console.log('User logged in, redirecting to dashboard...');
-                window.location.href = 'dashboard.html';
-
-                // Set listener untuk data Realtime Database
-                const sensorRef = database.ref('sensor');
-                const pumpRef = database.ref('control/pompa');
-
-                // Dapatkan data sensor secara real-time
-                sensorRef.on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    if (data) {
-                        tempValue.textContent = `${data.suhu.toFixed(1)} °C`;
-                        humValue.textContent = `${data.kelembaban.toFixed(1)} %`;
-                    } else {
-                        tempValue.textContent = '-- °C';
-                        humValue.textContent = '-- %';
-                    }
-                });
-
-                // Dapatkan status pompa saat ini dari database
-                pumpRef.on('value', (snapshot) => {
-                    const status = snapshot.val();
-                    if (status !== null) {
-                        pumpToggle.checked = status;
-                        pumpStatus.textContent = `Pompa: ${status ? 'Aktif' : 'Nonaktif'}`;
-                    }
-                });
-
-                // Dengarkan perubahan tombol pompa
-                pumpToggle.addEventListener('change', () => {
-                    const newStatus = pumpToggle.checked;
-                    pumpRef.set(newStatus)
-                        .then(() => {
-                            console.log('Status pompa berhasil diperbarui');
-                        })
-                        .catch((error) => {
-                            console.error('Gagal memperbarui status pompa:', error);
-                        });
-                });
-
-                // Logout
-                logoutBtn.addEventListener('click', () => {
-                    auth.signOut().then(() => {
-                        console.log('Logout berhasil');
-                    }).catch((error) => {
-                        console.error('Logout gagal:', error);
-                    });
-                });
-
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500); // Small delay to ensure auth state is fully set
             } else {
                 // User belum login, tampilkan halaman utama
+                console.log('No user logged in, showing main content');
                 showContent('main');
             }
         });
 
         // Logika form login
         if (loginForm) {
+            console.log('Login form found, adding event listener');
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
+                console.log('Login form submitted');
+                
                 const email = loginForm['email'].value;
                 const password = loginForm['password'].value;
+                console.log('Login attempt with email:', email);
 
                 // Show loading state
                 const loginButton = loginForm.querySelector('.eco-login-btn');
@@ -979,32 +950,94 @@
                     .then((userCredential) => {
                         console.log('Login berhasil:', userCredential.user.email);
                         
+                        // Clear any error messages
+                        const errorContainer = document.getElementById('login-error');
+                        if (errorContainer) {
+                            errorContainer.textContent = '';
+                        }
+                        
+                        // Show success message
+                        loginButton.textContent = 'Login berhasil! Redirecting...';
+                        
                         // Buat atau update data user di database
                         const user = userCredential.user;
-                        const sanitizedEmail = user.email.replace(/[.#$[\]]/g, '_');
+                        const userId = user.uid;
                         
                         // Inisialisasi data default jika belum ada
-                        const userRef = database.ref(`users/${sanitizedEmail}`);
+                        const userRef = database.ref(`users/${userId}`);
                         userRef.once('value', (snapshot) => {
                             if (!snapshot.exists()) {
-                                // Set default data untuk user baru
-                                userRef.set({
-                                    email: user.email,
-                                    suhu: 36.5,
-                                    kelembapan: 45,
-                                    timestamp: new Date().toISOString()
-                                }).then(() => {
-                                    console.log('Default data set for new user');
+                                // Set default data untuk user baru dengan struktur yang benar
+                                const today = new Date().toISOString().split('T')[0];
+                                const timestamp = Date.now();
+                                const timeStr = new Date().toLocaleTimeString('id-ID');
+                                
+                                const defaultData = {
+                                    sensors: {
+                                        Worm1: {
+                                            byDay: {
+                                                [today]: {
+                                                    [`default_${timestamp}`]: {
+                                                        deviceId: "Default_Device",
+                                                        hum: 50,
+                                                        rssi: -70,
+                                                        t: timestamp,
+                                                        temp: 36.0,
+                                                        timeStr: timeStr,
+                                                        tz: "Asia/Jakarta"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                };
+                                
+                                userRef.set(defaultData).then(() => {
+                                    console.log('Default sensor data created for new user');
+                                }).catch((error) => {
+                                    console.error('Error creating default data:', error);
                                 });
+                            } else {
+                                console.log('User data already exists');
                             }
                         });
-
-                        loginModal.hide();
+                        
+                        // Hide modal and redirect
+                        if (loginModal && typeof loginModal.hide === 'function') {
+                            loginModal.hide();
+                        } else if (window.bootstrap && window.bootstrap.Modal) {
+                            const modalElement = document.getElementById('loginModal');
+                            if (modalElement) {
+                                const modal = window.bootstrap.Modal.getInstance(modalElement);
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            }
+                        }
+                        
+                        // Redirect akan terjadi otomatis melalui onAuthStateChanged
+                        if (loginModal) {
+                            loginModal.hide();
+                        } else {
+                            // Fallback: manually close modal
+                            const modalElement = document.getElementById('loginModal');
+                            if (modalElement) {
+                                modalElement.style.display = 'none';
+                                document.body.classList.remove('modal-open');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) backdrop.remove();
+                            }
+                        }
                         // Redirect akan terjadi otomatis melalui onAuthStateChanged
                     })
                     .catch((error) => {
                         console.error('Login gagal:', error.message);
-                        loginError.textContent = 'Email atau kata sandi salah. Silakan coba lagi.';
+                        
+                        // Show error message
+                        const errorContainer = document.getElementById('login-error');
+                        if (errorContainer) {
+                            errorContainer.textContent = 'Email atau kata sandi salah. Silakan coba lagi.';
+                        }
                         
                         // Reset button state
                         loginButton.textContent = originalText;
@@ -1030,6 +1063,20 @@
         };
         window.addEventListener('scroll', onScroll);
         window.addEventListener('load', onScroll);
+
+        // Initialize Bootstrap Modal when Bootstrap is loaded
+        function initializeBootstrap() {
+            if (typeof bootstrap !== 'undefined') {
+                loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                console.log('Bootstrap Modal initialized successfully');
+            } else {
+                // Retry after a short delay if Bootstrap is not loaded yet
+                setTimeout(initializeBootstrap, 100);
+            }
+        }
+
+        // Start initialization when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeBootstrap);
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
