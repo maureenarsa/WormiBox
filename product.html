@@ -179,47 +179,76 @@ img, video {
 
         <!-- Navbar & Hero Start -->
         <div class="container-fluid position-relative p-0">
-            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0" style="background-color: #a0c8a6;">
-                <a href="" class="navbar-brand p-0">
-                    <h1 class="display-6" style="font-family: 'Poppins', sans-serif; color: #00543c;">
-                        <img src="img/logo-WormiBox.png" alt="VermiBox Logo" style="height: 1.2em; vertical-align: middle;"> WormiBox
-                    </h1>                    
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="fa fa-bars"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto py-0">
-                        <a href="index.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Beranda</a>
-                        <a href="about.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Tentang</a>
-                        <a href="product.html" class="nav-item nav-link active" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Produk</a>
-                        <a href="service.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Layanan</a>
-                        <a href="contact.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Kontak</a>
-                    </div>
-        
-                    <style>
+  <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0" style="background-color: #a0c8a6;">
+    <a href="" class="navbar-brand p-0">
+      <h1 class="display-6" style="font-family: 'Poppins', sans-serif; color: #00543c;">
+        <img src="img/logo-WormiBox.png" alt="VermiBox Logo" style="height: 1.2em; vertical-align: middle;"> WormiBox
+      </h1>                    
+    </a>
 
-                    
-                        /* Tombol Order Now */
-                        .btn-order-now {
-                            background-color: #00543c; /* Warna latar belakang awal */
-                            color: white; /* Warna teks tetap putih */
-                            border: none; /* Menghilangkan border */
-                            transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
-                        }
-                    
-                        .btn-order-now:hover {
-                            background-color: #79d856; /* Warna latar belakang saat hover */
-                            color: white; /* Warna teks tetap putih saat hover */
-                        }
-                    </style>
-                    
-                    <!-- Tombol Order Now -->
-                    <a href="http://shopee.co.id/wormibox" class="btn btn-order-now rounded-pill d-inline-flex flex-shrink-0 py-2 px-4">Pesan WormiBox Sekarang</a>
-                    
-                </div>
-            </nav>
-        </div>
+    <!-- Tombol Hamburger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+      style="border-color: #00543c; box-shadow: none;">
+      <span class="fa fa-bars" style="color: #00543c; font-size: 1.5rem;"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto py-0">
+        <a href="index.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Beranda</a>
+        <a href="about.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Tentang</a>
+        <a href="product.html" class="nav-item nav-link active" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Produk</a>
+        <a href="service.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Layanan</a>
+        <a href="contact.html" class="nav-item nav-link" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Kontak</a>
+      </div>
+
+      <style>
+        /* Tombol Order Now */
+        .btn-order-now {
+          background-color: #00543c;
+          color: white;
+          border: none;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-order-now:hover {
+          background-color: #79d856;
+          color: white;
+        }
+
+        /* Warna hijau untuk tombol hamburger */
+        .navbar-toggler {
+          border-color: #00543c !important;
+          box-shadow: none !important;
+        }
+
+        .navbar-toggler .fa-bars {
+          color: #00543c !important;
+          font-size: 1.5rem;
+        }
+
+        /* Hilangkan efek biru saat ditekan */
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+          outline: none !important;
+          box-shadow: none !important;
+          border-color: #00543c !important;
+        }
+
+        /* Efek hover untuk hamburger (opsional) */
+        .navbar-toggler:hover .fa-bars {
+          color: #79d856 !important;
+        }
+      </style>
+
+      <!-- Tombol Order Now -->
+      <a href="http://shopee.co.id/wormibox"
+         class="btn btn-order-now rounded-pill d-inline-flex flex-shrink-0 py-2 px-4">
+         Pesan WormiBox Sekarang
+      </a>
+    </div>
+  </nav>
+</div>
+
         
 
 <!-- Products Start -->
@@ -241,36 +270,67 @@ img, video {
                 <div class="product-item shadow-lg position-relative overflow-hidden rounded" style="max-height: 800px; background-color: #f7f7f7;">
                     <!-- Slider Gambar -->
                     <div id="productSlider" class="carousel slide product-image position-relative" data-bs-ride="carousel">
-                        <div class="carousel-inner" style="max-height: 340px; background-color: #e0e0e0;">
-                            <div class="carousel-item active">
-                                <img src="img/Tampak Perspektif.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/Tampak Depan.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/Tampak Samping Kanan.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/Tampak Samping Kiri.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/Tampak Belakang.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/Tampak Atas.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                            </div>
-                        </div>
-                        <!-- Navigasi Slider -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
+    <div class="carousel-inner bg-light" style="max-height: 400px;">
+        <div class="carousel-item active">
+            <img src="img/Tampak Perspektif.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Perspektif">
+        </div>
+        <div class="carousel-item">
+            <img src="img/Tampak Depan.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Depan">
+        </div>
+        <div class="carousel-item">
+            <img src="img/Tampak Samping Kanan.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Samping Kanan">
+        </div>
+        <div class="carousel-item">
+            <img src="img/Tampak Samping Kiri.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Samping Kiri">
+        </div>
+        <div class="carousel-item">
+            <img src="img/Tampak Belakang.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Belakang">
+        </div>
+        <div class="carousel-item">
+            <img src="img/Tampak Atas.jpg" class="d-block w-100 img-fluid rounded-top" alt="Tampak Atas">
+        </div>
+    </div>
+
+    <!-- Navigasi Slider -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
+    <style>
+        /* Pastikan gambar proporsional di semua perangkat */
+        #productSlider .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Tidak terpotong */
+            background-color: #e0e0e0; /* Latar belakang netral */
+        }
+
+        /* Batas tinggi fleksibel */
+        @media (max-width: 768px) {
+            #productSlider .carousel-inner {
+                max-height: 280px; /* sedikit lebih kecil untuk HP */
+            }
+        }
+
+        @media (max-width: 480px) {
+            #productSlider .carousel-inner {
+                max-height: 240px;
+            }
+        }
+
+        /* Agar tombol next/prev tidak menutupi gambar di HP */
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 8%;
+        }
+    </style>
+</div>
+
                     <!-- Ikon Mata untuk Detail Gambar -->
                     <div class="product-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-success bg-opacity-50 text-white opacity-0 transition-opacity" style="backdrop-filter: blur(5px);">
                         <a href="#" class="btn btn-light btn-sm rounded-pill py-2 px-3">Learn More</a>
@@ -279,20 +339,37 @@ img, video {
                         </a>
                     </div>
                     <div class="product-content bg-light text-center rounded-bottom p-4">
-                        <a href="#" class="h4 d-inline-block mb-3 text-decoration-none text-dark" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Bundling WormiBox</a>
-                        <p class="text-muted" style="text-align: justify;">Kotak WormiBox termasuk segala kompartemen IoT dan peralatan teknis pemasangan, panduan penggunaan, cacing ANC, bedding cacing, sekop mini, serta koran/kardus.</p>
-                        <p class="fs-4 text-success fw-bold mb-3 d-flex justify-content-center align-items-center">
-                            <span>Rp699.999</span>
-                        </p>
-                        <div class="d-flex justify-content-center align-items-center">
-                            <!-- Tombol Order Now dengan Ikon Keranjang -->
-                            <a href="http://shopee.co.id/wormibox" class="btn btn-order-now rounded-pill py-2 px-4 shadow me-3">
-                                <i class="fa fa-shopping-cart"></i> Pesan 
-                            </a>
-                            <!-- Best Seller Label next to the button -->
-                            <span class="badge bg-danger text-white" style="font-size: 0.9rem;">Best Seller</span>
-                        </div>
-                    </div>
+    <a href="#" class="h4 d-inline-block mb-3 text-decoration-none text-dark" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Bundling WormiBox</a>
+    <p class="text-muted" style="text-align: justify;">Kotak WormiBox termasuk segala kompartemen IoT dan peralatan teknis pemasangan, panduan penggunaan, cacing ANC, bedding cacing, sekop mini, serta koran/kardus.</p>
+    <p class="fs-4 text-success fw-bold mb-3 d-flex justify-content-center align-items-center">
+        <span>Rp699.999</span>
+    </p>
+    <div class="d-flex justify-content-center align-items-center">
+        <!-- Tombol Pesan (klik langsung ke Shopee) -->
+        <a href="https://shopee.co.id/wormibox" target="_blank" class="btn btn-order-now rounded-pill py-2 px-4 shadow me-3">
+            <i class="fa fa-shopping-cart"></i> Pesan
+        </a>
+        <!-- Label Best Seller -->
+        <span class="badge bg-danger text-white" style="font-size: 0.9rem;">Best Seller</span>
+    </div>
+
+    <style>
+        /* Gaya tombol agar bisa diklik dengan tampilan konsisten */
+        .btn-order-now {
+            background-color: #00543c;
+            color: white !important;
+            border: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-order-now:hover {
+            background-color: #79d856;
+            color: white !important;
+        }
+    </style>
+</div>
+
                 </div>
             </div>
         </div>
