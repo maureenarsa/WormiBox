@@ -333,26 +333,33 @@ img, video {
 </div>
 
                     <!-- Ikon Mata untuk Detail Gambar -->
-                    <div class="product-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-success bg-opacity-50 text-white opacity-0 transition-opacity" style="backdrop-filter: blur(5px);">
-                        <a href="#" class="btn btn-light btn-sm rounded-pill py-2 px-3">Learn More</a>
-                        <a href="#" class="btn btn-light btn-sm rounded-circle mt-3" style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
-                            <i class="bi bi-eye" style="font-size: 1.5rem;"></i>
-                        </a>
-                    </div>
-                    <div class="product-content bg-light text-center rounded-bottom p-4">
-    <a href="#" class="h4 d-inline-block mb-3 text-decoration-none text-dark" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">Bundling WormiBox</a>
-    <p class="text-muted" style="text-align: justify;">Kotak WormiBox termasuk segala kompartemen IoT dan peralatan teknis pemasangan, panduan penggunaan, cacing ANC, bedding cacing, sekop mini, serta koran/kardus.</p>
-    <p class="fs-4 text-success fw-bold mb-3 d-flex justify-content-center align-items-center">
-        <span>Rp699.999</span>
-    </p>
-    <div class="d-flex justify-content-center align-items-center">
-        <!-- Tombol Pesan (klik langsung ke Shopee) -->
-        <a href="https://shopee.co.id/wormibox" target="_blank" class="btn btn-order-now rounded-pill py-2 px-4 shadow me-3">
-            <i class="fa fa-shopping-cart"></i> Pesan
-        </a>
-        <!-- Label Best Seller -->
-        <span class="badge bg-danger text-white" style="font-size: 0.9rem;">Best Seller</span>
-    </div>
+                    <div class="product-image position-relative">
+  <img src="gambar-produk.jpg" class="img-fluid rounded-top" alt="WormiBox">
+  
+  <!-- Overlay hanya untuk gambar -->
+  <div class="product-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-success bg-opacity-50 text-white opacity-0 transition-opacity" style="backdrop-filter: blur(5px);">
+      <a href="#" class="btn btn-light btn-sm rounded-pill py-2 px-3">Learn More</a>
+      <a href="#" class="btn btn-light btn-sm rounded-circle mt-3" style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
+          <i class="bi bi-eye" style="font-size: 1.5rem;"></i>
+      </a>
+  </div>
+</div>
+
+<!-- Konten produk -->
+<div class="product-content bg-light text-center rounded-bottom p-4">
+  <a href="#" class="h4 d-inline-block mb-3 text-decoration-none text-dark" style="font-family: 'Poppins', sans-serif; font-weight: bold;">Bundling WormiBox</a>
+  <p class="text-muted" style="text-align: justify;">Kotak WormiBox termasuk segala kompartemen IoT dan peralatan teknis pemasangan...</p>
+  <p class="fs-4 text-success fw-bold mb-3 d-flex justify-content-center align-items-center">
+      <span>Rp699.999</span>
+  </p>
+  <div class="d-flex justify-content-center align-items-center">
+      <a href="https://shopee.co.id/wormibox" target="_blank" class="btn btn-order-now rounded-pill py-2 px-4 shadow me-3">
+          <i class="fa fa-shopping-cart"></i> Pesan
+      </a>
+      <span class="badge bg-danger text-white" style="font-size: 0.9rem;">Best Seller</span>
+  </div>
+</div>
+
 
     <style>
         /* Gaya tombol agar bisa diklik dengan tampilan konsisten */
