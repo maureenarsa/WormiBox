@@ -174,7 +174,33 @@ img, video {
   }
 }
 
+/* Warna ikon hamburger (garis tiga) selalu hijau tua */
+.navbar-toggler {
+  border-color: #00543c !important; /* warna border tombol */
+  box-shadow: none !important; /* hilangkan efek glow */
+}
+
+.navbar-toggler .fa-bars {
+  color: #00543c !important; /* warna ikon garis tiga */
+  font-size: 1.5rem; /* ukuran ikon */
+}
+
+/* Saat hover, tetap hijau tua (tidak berubah warna) */
+.navbar-toggler:hover,
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  background-color: transparent !important;
+  border-color: #00543c !important;
+}
+
+.navbar-toggler:hover .fa-bars,
+.navbar-toggler:focus .fa-bars,
+.navbar-toggler:active .fa-bars {
+  color: #00543c !important;
+}
+
 </style>
+
 
 
         <!-- Navbar & Hero Start -->
